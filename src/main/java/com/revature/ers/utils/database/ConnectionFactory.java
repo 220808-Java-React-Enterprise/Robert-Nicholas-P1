@@ -22,7 +22,7 @@ public class ConnectionFactory {
 
     private ConnectionFactory(){
         try{
-            properties.load(new FileReader("src/main/resources/db.properties"));
+            properties.load(new FileReader("db.properties"));
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -34,7 +34,7 @@ public class ConnectionFactory {
     }
 
     public Connection getConnection() throws SQLException{
-        Connection connection = DriverManager.getConnection("jdbc:postgresql://db-robert-nicholas-p1.cqpittahenkz.us-east-2.rds.amazonaws.com:5432/postgres?currentSchema=testrobert", "postgres", "revature");
+        Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("username"), properties.getProperty("password"));
         if (connection == null) throw new RuntimeException("Could not establish connection with the database.");
         return connection;
     }
