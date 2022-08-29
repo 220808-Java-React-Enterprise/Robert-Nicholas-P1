@@ -1,6 +1,5 @@
 # Compiled class file
 *.class
-ConnectionFactory
 
 # Log file
 *.log
@@ -29,3 +28,4 @@ hs_err_pid*
 *.properties
 *.iml
 *DS_Store
+ConnectionFactory.java
