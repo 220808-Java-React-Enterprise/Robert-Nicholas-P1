@@ -1,4 +1,24 @@
 #To-Do
+## Use Case to-do
+ - Admin features
+   - [ ] Admin Login
+   - [ ] Add User
+   - [ ] Update Target User
+   - [ ] Delete Target User
+ - Employee Features
+   - [ ] Employee Login
+   - [ ] View My reimbursements
+   - [ ] Submit new reimbursement
+   - [ ] View Reimbursement Details
+   - [ ] Update Reimbursement (Only in pending state)
+ - Finance manager features
+   - [ ] Manager Login
+   - [ ] View ALL reimbursements
+   - [ ] Filter Reimbursements 
+   - [ ] View Reimbursement Details
+   - [ ] Approve/Deny Reimbursement
+
+## Checkpoints
 #### 25Aug2022
 - Project requirements delivered
 
