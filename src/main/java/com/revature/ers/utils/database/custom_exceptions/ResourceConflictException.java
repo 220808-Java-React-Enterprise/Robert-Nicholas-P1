@@ -1,4 +1,4 @@
-package com.revature.ers.utils.custom_exceptions;
+package com.revature.ers.utils.database.custom_exceptions;
 
 public class ResourceConflictException extends RuntimeException{
     public ResourceConflictException() {

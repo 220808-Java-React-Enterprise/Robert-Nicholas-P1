@@ -5,9 +5,9 @@ import com.revature.ers.dtos.requests.LoginRequest;
 import com.revature.ers.dtos.requests.UserRequest;
 import com.revature.ers.dtos.responses.UserResponse;
 import com.revature.ers.models.User;
-import com.revature.ers.utils.custom_exceptions.AuthernticationException;
-import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
-import com.revature.ers.utils.custom_exceptions.ResourceConflictException;
+import com.revature.ers.utils.database.custom_exceptions.AuthernticationException;
+import com.revature.ers.utils.database.custom_exceptions.InvalidRequestException;
+import com.revature.ers.utils.database.custom_exceptions.ResourceConflictException;
 
 import java.util.UUID;
 

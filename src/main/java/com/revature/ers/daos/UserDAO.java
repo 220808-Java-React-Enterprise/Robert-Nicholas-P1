@@ -1,7 +1,7 @@
 package com.revature.ers.daos;
 
 import com.revature.ers.models.User;
-import com.revature.ers.utils.custom_exceptions.InvalidSQLException;
+import com.revature.ers.utils.database.custom_exceptions.InvalidSQLException;
 import com.revature.ers.utils.database.ConnectionFactory;
 
 import java.sql.Connection;

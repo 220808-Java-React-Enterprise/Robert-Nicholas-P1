@@ -6,8 +6,8 @@ import com.revature.ers.dtos.responses.Principal;
 import com.revature.ers.models.User;
 import com.revature.ers.services.TokenService;
 import com.revature.ers.services.UserService;
-import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
-import com.revature.ers.utils.custom_exceptions.ResourceConflictException;
+import com.revature.ers.utils.database.custom_exceptions.InvalidRequestException;
+import com.revature.ers.utils.database.custom_exceptions.ResourceConflictException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
