@@ -26,4 +26,7 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement>{
     public List<Reimbursement> getAll() {
         return null;
     }
+    public void example1(){
+
+    }
 }
