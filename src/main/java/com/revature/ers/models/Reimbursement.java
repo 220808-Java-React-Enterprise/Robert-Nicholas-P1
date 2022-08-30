@@ -7,5 +7,4 @@ public class Reimbursement {
     private float amount;
     private Date submitted, resolved;
     private String description;
-
 }
