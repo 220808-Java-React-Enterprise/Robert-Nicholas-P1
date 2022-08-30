@@ -28,23 +28,30 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String token = req.getHeader("Authorization");
+        Principal principal = tokenService.extractRequesterDetails(token);
+
         try {
-            UserRequest request = mapper.readValue(req.getInputStream(), UserRequest.class);
+            if (principal.getRoleId().equals(userService.getRoleIdByUserId(principal.getId()))) {
+                UserRequest request = mapper.readValue(req.getInputStream(), UserRequest.class);
 
-            String[] path = req.getRequestURI().split("/");
+                String[] path = req.getRequestURI().split("/");
 
-            if (path[3].equalsIgnoreCase("signup")){
-                User createdUser = userService.register(request, "DEFAULT");
+                if (path[3].equalsIgnoreCase("signup")){
+                    User createdUser = userService.register(request);
 
-                resp.setStatus(200);
-                resp.setContentType("application/json");
-                resp.getWriter().write(mapper.writeValueAsString(createdUser.getId()));
+                    resp.setStatus(200);
+                    resp.setContentType("application/json");
+                    resp.getWriter().write(mapper.writeValueAsString(createdUser.getId()));
+                }
+                else if (path[3].equalsIgnoreCase("login")){
+
+                }
+                else;
             }
-            else if (path[3].equalsIgnoreCase("login")){
 
-            }
-            else;
-
+        } catch (NullPointerException e){
+            resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
             resp.setStatus(404);    // Bad Request
         } catch (ResourceConflictException e){

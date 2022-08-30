@@ -1,19 +1,20 @@
 package com.revature.ers.dtos.requests;
 
 public class UserRequest {
-    private String username, email, password1, password2, givenName, surName;
+    private String username, email, password1, password2, givenName, surName, roleId;
 
     public UserRequest(){
 
     }
 
-    public UserRequest(String username, String email, String password1, String password2, String givenName, String surName) {
+    public UserRequest(String username, String email, String password1, String password2, String givenName, String surName, String roleId) {
         this.username = username;
         this.email = email;
         this.password1 = password1;
         this.password2 = password2;
         this.givenName = givenName;
         this.surName = surName;
+        this.roleId = roleId;
     }
 
     public String getUsername() {
@@ -64,15 +65,24 @@ public class UserRequest {
         this.surName = surName;
     }
 
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public String toString() {
-        return "NewUserRequest{" +
+        return "UserRequest{" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password1='" + password1 + '\'' +
                 ", password2='" + password2 + '\'' +
                 ", givenName='" + givenName + '\'' +
                 ", surName='" + surName + '\'' +
+                ", roleId='" + roleId + '\'' +
                 '}';
     }
 }

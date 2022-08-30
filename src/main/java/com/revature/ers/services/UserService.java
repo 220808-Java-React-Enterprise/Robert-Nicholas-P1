@@ -21,7 +21,7 @@ public class UserService {
     // Pre:
     // Post:
     // Purpose:
-    public User register(UserRequest request, String role){
+    public User register(UserRequest request){
         User user = null;
         if (isValidUsername(request.getUsername()))
             if (!isDuplicateUsername(request.getUsername()))
@@ -31,7 +31,7 @@ public class UserService {
                             if (isSamePassword(request.getPassword1(), request.getPassword2()))
                                 if (isValidName(request.getGivenName()) && isValidName(request.getSurName())){
                                     user = new User(UUID.randomUUID().toString(), request.getUsername(), request.getEmail(),
-                                        request.getPassword1(), request.getGivenName(), request.getSurName(), userDAO.getUserRoleIdByRole(role));
+                                        request.getPassword1(), request.getGivenName(), request.getSurName(), userDAO.getUserRoleIdByRole(request.getRoleId().toUpperCase()));
                                     userDAO.save(user);
                                 }
         return user;
