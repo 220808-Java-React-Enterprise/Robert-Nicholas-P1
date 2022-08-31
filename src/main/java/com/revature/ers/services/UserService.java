@@ -1,10 +1,13 @@
 package com.revature.ers.services;
 
 import com.revature.ers.daos.UserDAO;
-import com.revature.ers.dtos.requests.NewUserRequest;
+import com.revature.ers.dtos.requests.LoginRequest;
+import com.revature.ers.dtos.requests.UserRequest;
+import com.revature.ers.dtos.responses.UserResponse;
 import com.revature.ers.models.User;
-import com.revature.ers.utils.custom_exceptions.custom_exceptions.InvalidRequestException;
-import com.revature.ers.utils.custom_exceptions.custom_exceptions.ResourceConflictException;
+import com.revature.ers.utils.database.custom_exceptions.AuthernticationException;
+import com.revature.ers.utils.database.custom_exceptions.InvalidRequestException;
+import com.revature.ers.utils.database.custom_exceptions.ResourceConflictException;
 
 import java.util.UUID;
 
@@ -18,7 +21,7 @@ public class UserService {
     // Pre:
     // Post:
     // Purpose:
-    public User register(NewUserRequest request){
+    public User register(UserRequest request){
         User user = null;
         if (isValidUsername(request.getUsername()))
             if (!isDuplicateUsername(request.getUsername()))
@@ -28,10 +31,27 @@ public class UserService {
                             if (isSamePassword(request.getPassword1(), request.getPassword2()))
                                 if (isValidName(request.getGivenName()) && isValidName(request.getSurName())){
                                     user = new User(UUID.randomUUID().toString(), request.getUsername(), request.getEmail(),
-                                        request.getPassword1(), request.getGivenName(), request.getSurName());
+                                        request.getPassword1(), request.getGivenName(), request.getSurName(), userDAO.getUserRoleIdByRole(request.getRoleId().toUpperCase()));
                                     userDAO.save(user);
                                 }
         return user;
+    }
+
+    // Pre:
+    // Post:
+    // Purpose:
+    public UserResponse login(LoginRequest request){
+        User user = userDAO.getUserByUsernameAndPassword(request.getUsername(), request.getPassword());
+        if (user == null) throw new AuthernticationException("\nIncorrect username or password");
+        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getGivenName(),
+                user.getSurName(), user.getRoleId());
+    }
+
+    // Pre:
+    // Post:
+    // Purpose:
+    public String getRoleIdByUserId(String userId){
+        return userDAO.getUserRoleIdByUserId(userId);
     }
 
     // Pre: A customer is signing up or updating their account
