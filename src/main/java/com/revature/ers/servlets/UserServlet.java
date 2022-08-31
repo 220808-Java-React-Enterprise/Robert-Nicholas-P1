@@ -31,6 +31,8 @@ public class UserServlet extends HttpServlet {
         String token = req.getHeader("Authorization");
         Principal principal = tokenService.extractRequesterDetails(token);
 
+
+
         try {
             if (principal.getRoleId().equals(userService.getRoleIdByUserId(principal.getId()))) {
                 UserRequest request = mapper.readValue(req.getInputStream(), UserRequest.class);

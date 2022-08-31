@@ -29,6 +29,7 @@ public class AuthServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         try{
+
             LoginRequest request = mapper.readValue(req.getInputStream(), LoginRequest.class);
             UserResponse response = userService.login(request);
             Principal principal = new Principal(response.getId(), response.getUsername(), response.getRoleId());
@@ -44,5 +45,10 @@ public class AuthServlet extends HttpServlet {
         } catch (AuthernticationException e){
             resp.setStatus(401); // Invalid Cred
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("\nGET\n");
     }
 }
