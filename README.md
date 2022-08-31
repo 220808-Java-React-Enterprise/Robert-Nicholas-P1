@@ -26,8 +26,6 @@
 - Remote repository is created and is being kept up to date
 - Core model classes are created
 - Registration/Authentication/User operations in progress
-  - [ ] User Login
-  - [ ] Setup token service
 
 #### 1Sept2022
 - Local DB instance running
