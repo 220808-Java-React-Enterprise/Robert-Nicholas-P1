@@ -1,8 +1,8 @@
 #To-Do
 ## Use Case to-do
  - Admin features
-   - [ ] Admin Login
-   - [ ] Add User
+   - [x] Admin Login
+   - [x] Add User
    - [ ] Update Target User
    - [ ] Delete Target User
  - Employee Features
@@ -12,9 +12,9 @@
    - [ ] View Reimbursement Details
    - [ ] Update Reimbursement (Only in pending state)
  - Finance manager features
-   - [ ] Manager Login
-   - [ ] View ALL reimbursements
-   - [ ] Filter Reimbursements 
+   - [x] Manager Login
+   - [x] View ALL reimbursements
+   - [x] Filter Reimbursements 
    - [ ] View Reimbursement Details
    - [ ] Approve/Deny Reimbursement
 
