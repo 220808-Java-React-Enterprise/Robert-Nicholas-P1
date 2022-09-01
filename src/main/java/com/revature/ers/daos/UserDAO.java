@@ -1,7 +1,7 @@
 package com.revature.ers.daos;
 
 import com.revature.ers.models.User;
-import com.revature.ers.utils.database.custom_exceptions.InvalidSQLException;
+import com.revature.ers.utils.custom_exceptions.InvalidSQLException;
 import com.revature.ers.utils.database.ConnectionFactory;
 
 import java.sql.Connection;
@@ -54,6 +54,22 @@ public class UserDAO implements CrudDAO<User>{
                     rs.getString("role_id"), rs.getBoolean("is_active"));
         } catch (SQLException e){
             throw new InvalidSQLException("Error getting user by username and password");
+        }
+        return null;
+    }
+
+    public User getUserById(String id){
+        try(Connection con = ConnectionFactory.getInstance().getConnection()){
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM ers_users WHERE id = ?");
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) return new User(rs.getString("id"), rs.getString("username"),
+                    rs.getString("email"), rs.getString("password"),
+                    rs.getString("given_name"), rs.getString("surname"),
+                    rs.getString("role_id"), rs.getBoolean("is_active"));
+        } catch (SQLException e){
+            throw new InvalidSQLException("Error getting user by id");
         }
         return null;
     }
