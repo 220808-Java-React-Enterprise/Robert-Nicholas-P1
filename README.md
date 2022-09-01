@@ -18,22 +18,6 @@
    - [ ] View Reimbursement Details
    - [ ] Approve/Deny Reimbursement
    
-## Id-Naming Convention
-- ers_user_roles
-  - 001 = ADMIN
-  - 002 = MANAGER
-  - 003 = EMPLOYEE
-- ers_reimbursement_statuses
-  - 001 = PENDING
-  - 002 = DENIED
-  - 003 = APPROVED_UNPAID
-  - 004 = APPROVED_PAID
-- ers_reimbursement_types
-  - 001 = LODGING
-  - 002 = TRAVEL
-  - 003 = FOOD
-  - 004 = OTHER
-
 ## Checkpoints
 #### 25Aug2022
 - Project requirements delivered
