@@ -14,7 +14,9 @@
  - Finance manager features
    - [x] Manager Login
    - [x] View ALL reimbursements
-   - [x] Filter Reimbursements 
+   - [x] Filter Reimbursements
+   - [ ] View List of Pending Requests
+   - [ ] view History of approved/denied requests 
    - [ ] View Reimbursement Details
    - [ ] Approve/Deny Reimbursement
    
