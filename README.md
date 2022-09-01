@@ -6,9 +6,9 @@
    - [ ] Update Target User
    - [ ] Delete Target User
  - Employee Features
-   - [ ] Employee Login
+   - [x] Employee Login
    - [ ] View My reimbursements
-   - [ ] Submit new reimbursement
+   - [x] Submit new reimbursement
    - [ ] View Reimbursement Details
    - [ ] Update Reimbursement (Only in pending state)
  - Finance manager features
