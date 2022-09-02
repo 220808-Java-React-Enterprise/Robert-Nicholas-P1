@@ -11,7 +11,7 @@
    - [x] Submit new reimbursement
    - [ ] Implement Blob
    - [x] View Reimbursement Details
-   - [ ] Update Reimbursement (Only in pending state)
+   - [x] Update Reimbursement (Only in pending state)
  - Finance manager features
    - [x] Manager Login
    - [x] View ALL reimbursements
