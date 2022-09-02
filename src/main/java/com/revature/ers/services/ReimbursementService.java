@@ -4,11 +4,12 @@ import com.revature.ers.daos.ReimbursementDAO;
 import com.revature.ers.daos.ReimbursementStatusDAO;
 import com.revature.ers.daos.ReimbursementTypeDAO;
 import com.revature.ers.dtos.requests.ReimbursementRequest;
+import com.revature.ers.dtos.responses.ReimbursementResponse;
 import com.revature.ers.models.Reimbursement;
 import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
 
-import java.sql.Blob;
 import java.sql.Timestamp;
+import java.util.Map;
 import java.util.UUID;
 
 public class ReimbursementService {
@@ -31,6 +32,30 @@ public class ReimbursementService {
         reimbursementDAO.save(reimbursement);
 
         return reimbursement;
+    }
+
+    public void updateReimbursement(Reimbursement reimbursement){
+        reimbursementDAO.update(reimbursement);
+    }
+
+    public String getStatus(String id){
+        return reimbursementStatusDAO.getStatus(id);
+    }
+
+    public String getTypeId(String type){
+        return reimbursementTypeDAO.getTypeId(type);
+    }
+
+    public Map<String, Reimbursement> getReimbursementList(String id){
+        Map<String, Reimbursement> ls = reimbursementDAO.getAllReimbursementsByAuthorId(id);
+        if (ls == null) throw new InvalidRequestException("\nNo reimbursements found");
+        return ls;
+    }
+
+    public Map<String, ReimbursementResponse> getReimbursementResponseList(String username){
+        Map<String, ReimbursementResponse> ls = reimbursementDAO.getAllResponseByUsername(username);
+        if (ls == null) throw new InvalidRequestException("\nNo reimbursements found");
+        return ls;
     }
 
     // Pre:
