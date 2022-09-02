@@ -2,14 +2,14 @@
 ## Use Case to-do
  - Admin features
    - [x] Admin Login
-   - [x] Add User
+   - [ ] Aprove/Deny Account Request
    - [ ] Update Target User
    - [ ] Delete Target User
  - Employee Features
    - [x] Employee Login
-   - [ ] View My reimbursements
+   - [x] View My reimbursements
    - [x] Submit new reimbursement
-   - [ ] View Reimbursement Details
+   - [x] View Reimbursement Details
    - [ ] Update Reimbursement (Only in pending state)
  - Finance manager features
    - [x] Manager Login
