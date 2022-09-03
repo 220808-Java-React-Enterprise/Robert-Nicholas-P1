@@ -22,13 +22,13 @@ public class Reimbursement {
   }
 
 
-    public Reimbursement(String id, float amount, Date submitted, Date resolved, String description, String author, String statusId, String typeId) {
+    public Reimbursement(String id, float amount, Timestamp submitted, Timestamp resolved, String description, String authorId, String statusId, String typeId) {
         this.id = id;
         this.amount = amount;
         this.submitted = submitted;
         this.resolved = resolved;
         this.description = description;
-        this.author = author;
+        this.authorId = authorId;
         this.statusId = statusId;
         this.typeId = typeId;
     }
@@ -96,23 +96,6 @@ public class Reimbursement {
 
     public void setResolverId(String resolverId) {
         this.resolverId = resolverId;
-    public Date getSubmitted() {
-        return submitted;
-    }
-
-    public void setSubmitted(Date submitted) {
-        this.submitted = submitted;
-    }
-
-    public Date getResolved() {
-        return resolved;
-    }
-
-    public void setResolved(Date resolved) {
-        this.resolved = resolved;
-    }
-
-
     }
 
     public String getStatusId() {

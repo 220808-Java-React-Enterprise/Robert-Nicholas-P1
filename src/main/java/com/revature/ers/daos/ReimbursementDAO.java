@@ -63,8 +63,8 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
             ResultSet rs = ps.executeQuery();
             List<Reimbursement> reimbursementList = new ArrayList<>();
             while (rs.next()){
-                reimbursementList.add(new Reimbursement(rs.getString("id"), rs.getFloat("amount"), rs.getDate("submitted"),
-                        rs.getDate("resolved"), rs.getString("description"),rs.getString("author_id"),rs.getString("status_id"),
+                reimbursementList.add(new Reimbursement(rs.getString("id"), rs.getFloat("amount"), rs.getTimestamp("submitted"),
+                        rs.getTimestamp("resolved"), rs.getString("description"),rs.getString("author_id"),rs.getString("status_id"),
                         rs.getString("type_id")));
             }
             return reimbursementList;
@@ -80,8 +80,8 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
             ResultSet rs = ps.executeQuery();
             List<Reimbursement> reimbursementList = new ArrayList<>();
             while (rs.next()){
-                reimbursementList.add(new Reimbursement(rs.getString("id"), rs.getFloat("amount"), rs.getDate("submitted"),
-                        rs.getDate("resolved"), rs.getString("description"),rs.getString("author_id"),rs.getString("status_id"),
+                reimbursementList.add(new Reimbursement(rs.getString("id"), rs.getFloat("amount"), rs.getTimestamp("submitted"),
+                        rs.getTimestamp("resolved"), rs.getString("description"),rs.getString("author_id"),rs.getString("status_id"),
                         rs.getString("type_id")));
             }
             return reimbursementList;
@@ -97,8 +97,8 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
             ResultSet rs = ps.executeQuery();
             List<Reimbursement> reimbursementList = new ArrayList<>();
             while (rs.next()){
-                reimbursementList.add(new Reimbursement(rs.getString("id"), rs.getFloat("amount"), rs.getDate("submitted"),
-                        rs.getDate("resolved"), rs.getString("description"),rs.getString("author_id"),rs.getString("status_id"),
+                reimbursementList.add(new Reimbursement(rs.getString("id"), rs.getFloat("amount"), rs.getTimestamp("submitted"),
+                        rs.getTimestamp("resolved"), rs.getString("description"),rs.getString("author_id"),rs.getString("status_id"),
                         rs.getString("type_id")));
             }
             return reimbursementList;
@@ -115,8 +115,8 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
             ResultSet rs = ps.executeQuery();
             List<Reimbursement> reimbursementList = new ArrayList<>();
             while (rs.next()){
-                reimbursementList.add(new Reimbursement(rs.getString("id"), rs.getFloat("amount"), rs.getDate("submitted"),
-                        rs.getDate("resolved"), rs.getString("description"),rs.getString("author_id"),rs.getString("status_id"),
+                reimbursementList.add(new Reimbursement(rs.getString("id"), rs.getFloat("amount"), rs.getTimestamp("submitted"),
+                        rs.getTimestamp("resolved"), rs.getString("description"),rs.getString("author_id"),rs.getString("status_id"),
                         rs.getString("type_id")));
             }
             return reimbursementList;
