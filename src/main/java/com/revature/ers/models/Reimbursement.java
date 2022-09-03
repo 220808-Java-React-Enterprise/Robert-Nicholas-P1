@@ -35,4 +35,68 @@ public class Reimbursement {
                 ", typeId='" + typeId + '\'' +
                 "}<br>";
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public Date getSubmitted() {
+        return submitted;
+    }
+
+    public void setSubmitted(Date submitted) {
+        this.submitted = submitted;
+    }
+
+    public Date getResolved() {
+        return resolved;
+    }
+
+    public void setResolved(Date resolved) {
+        this.resolved = resolved;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(String statusId) {
+        this.statusId = statusId;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
 }
