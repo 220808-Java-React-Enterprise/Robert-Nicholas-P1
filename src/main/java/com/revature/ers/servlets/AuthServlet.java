@@ -6,8 +6,8 @@ import com.revature.ers.dtos.responses.Principal;
 import com.revature.ers.dtos.responses.UserResponse;
 import com.revature.ers.services.TokenService;
 import com.revature.ers.services.UserService;
-import com.revature.ers.utils.database.custom_exceptions.AuthernticationException;
-import com.revature.ers.utils.database.custom_exceptions.InvalidRequestException;
+import com.revature.ers.utils.custom_exceptions.AuthernticationException;
+import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +38,6 @@ public class AuthServlet extends HttpServlet {
             resp.setStatus(200);
             resp.setHeader("Authorization", token);
             resp.setContentType("application/json");
-            resp.getWriter().write(mapper.writeValueAsString(response));
 
         } catch (InvalidRequestException e){
             resp.setStatus(404); // Bad Request
