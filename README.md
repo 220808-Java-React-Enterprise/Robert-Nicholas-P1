@@ -16,10 +16,10 @@
    - [x] Manager Login
    - [x] View ALL reimbursements
    - [x] Filter Reimbursements
-   - [ ] View List of Pending Requests
-   - [ ] view History of approved/denied requests 
+   - [x] View List of Pending Requests
+   - [x] view History of approved/denied requests 
    - [ ] View Reimbursement Details
-   - [ ] Approve/Deny Reimbursement
+   - [x] Approve/Deny Reimbursement
    
 ## Checkpoints
 #### 25Aug2022
