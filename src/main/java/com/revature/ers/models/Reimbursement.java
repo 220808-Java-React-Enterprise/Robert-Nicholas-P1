@@ -19,9 +19,20 @@ public class Reimbursement {
         this.paymentId = paymentId;
         this.authorId = authorId;
         this.resolverId = null;
+  }
+
+
+    public Reimbursement(String id, float amount, Date submitted, Date resolved, String description, String author, String statusId, String typeId) {
+        this.id = id;
+        this.amount = amount;
+        this.submitted = submitted;
+        this.resolved = resolved;
+        this.description = description;
+        this.author = author;
         this.statusId = statusId;
         this.typeId = typeId;
     }
+
 
     public Reimbursement(String id, String description, String paymentId, String authorId, String resolverId, String statusId, String typeId, float amount, Timestamp submitted, Timestamp resolved, Blob receipt) {
         this.id = id;
@@ -35,6 +46,8 @@ public class Reimbursement {
         this.submitted = submitted;
         this.resolved = resolved;
         this.receipt = receipt;
+
+
     }
 
     public String getId() {
@@ -83,6 +96,23 @@ public class Reimbursement {
 
     public void setResolverId(String resolverId) {
         this.resolverId = resolverId;
+    public Date getSubmitted() {
+        return submitted;
+    }
+
+    public void setSubmitted(Date submitted) {
+        this.submitted = submitted;
+    }
+
+    public Date getResolved() {
+        return resolved;
+    }
+
+    public void setResolved(Date resolved) {
+        this.resolved = resolved;
+    }
+
+
     }
 
     public String getStatusId() {
@@ -100,6 +130,7 @@ public class Reimbursement {
     public void setTypeId(String typeId) {
         this.typeId = typeId;
     }
+
 
     public Timestamp getSubmitted() {
         return submitted;
@@ -141,4 +172,5 @@ public class Reimbursement {
                 ", receipt=" + receipt +
                 '}';
     }
+
 }

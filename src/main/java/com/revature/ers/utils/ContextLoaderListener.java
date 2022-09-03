@@ -6,6 +6,7 @@ import com.revature.ers.services.ReimbursementService;
 import com.revature.ers.services.TokenService;
 import com.revature.ers.services.UserService;
 import com.revature.ers.servlets.AuthServlet;
+import com.revature.ers.servlets.ManagerServlet;
 import com.revature.ers.servlets.ReimbursementServlet;
 import com.revature.ers.servlets.UserServlet;
 
@@ -24,12 +25,15 @@ public class ContextLoaderListener implements ServletContextListener {
         AuthServlet authServlet = new AuthServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO(), new UserRoleDAO()));
         ReimbursementServlet reimbursementServlet = new ReimbursementServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO(),
                 new UserRoleDAO()), new ReimbursementService(new ReimbursementDAO(), new ReimbursementTypeDAO(), new ReimbursementStatusDAO()));
+        ManagerServlet managerServlet = new ManagerServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO()), new ReimbursementService(new ReimbursementDAO()));
+
 
         // Need ServletContext class to map whatever servlet to url path
         ServletContext context = sce.getServletContext();
         context.addServlet("UserServlet", userServlet).addMapping("/users");
         context.addServlet("AuthServlet", authServlet).addMapping("/login");
         context.addServlet("ReimbursementServlet", reimbursementServlet).addMapping("/reimb/*");
+        context.addServlet("ManagerServlet", managerServlet).addMapping("/manager/*");
     }
 
     @Override
