@@ -1,4 +1,4 @@
-package com.revature.ers.utils.custom_exceptions.custom_exceptions;
+package com.revature.ers.utils.custom_exceptions;
 
 public class InvalidSQLException extends RuntimeException{
     public InvalidSQLException() {
