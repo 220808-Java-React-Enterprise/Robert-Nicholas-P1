@@ -6,7 +6,7 @@ import com.revature.ers.dtos.responses.Principal;
 import com.revature.ers.services.ReimbursementService;
 import com.revature.ers.services.TokenService;
 import com.revature.ers.services.UserService;
-import com.revature.ers.utils.database.custom_exceptions.InvalidRequestException;
+import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +38,7 @@ public class ManagerServlet extends HttpServlet {
         String[] path = req.getRequestURI().split("/");
 
         try {
-            if (principal.getRoleId().equals("MANAGER")) {
+            if (principal.getRole().equals("MANAGER")) {
                 System.out.println("Manager Role authenticated");
                 resp.setContentType("application/json");
                 if (path[3].equals("updateStatus")){
@@ -76,7 +76,7 @@ public class ManagerServlet extends HttpServlet {
         String[] path = req.getRequestURI().split("/");
 
         try {
-            if (principal.getRoleId().equals("MANAGER")) {
+            if (principal.getRole().equals("MANAGER")) {
                 System.out.println("Manager Role authenticated");
                 resp.setContentType("application/json");
                 if (path[3].equals("viewreimb")){

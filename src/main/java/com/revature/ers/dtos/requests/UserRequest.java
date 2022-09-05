@@ -2,6 +2,7 @@ package com.revature.ers.dtos.requests;
 
 public class UserRequest {
     private String username, email, password1, password2, givenName, surName, roleId;
+    private boolean isActive;
 
     public UserRequest(){
 
@@ -73,6 +74,14 @@ public class UserRequest {
         this.roleId = roleId;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     @Override
     public String toString() {
         return "UserRequest{" +
@@ -83,6 +92,7 @@ public class UserRequest {
                 ", givenName='" + givenName + '\'' +
                 ", surName='" + surName + '\'' +
                 ", roleId='" + roleId + '\'' +
+                ", isActive='" + isActive + '\'' +
                 '}';
     }
 }

@@ -1,16 +1,16 @@
 package com.revature.ers.dtos.responses;
 
 public class Principal {
-    private String id, username, roleId;
+    private String id, username, role;
 
     public Principal(){
 
     }
 
-    public Principal(String id, String username, String roleId) {
+    public Principal(String id, String username, String role) {
         this.id = id;
         this.username = username;
-        this.roleId = roleId;
+        this.role = role;
     }
 
     public String getId() {
@@ -29,12 +29,12 @@ public class Principal {
         this.username = username;
     }
 
-    public String getRoleId() {
-        return roleId;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setRole(String roleId) {
+        this.role = roleId;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class Principal {
         return "Principal{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
-                ", roleId='" + roleId + '\'' +
+                ", roleId='" + role + '\'' +
                 '}';
     }
 }

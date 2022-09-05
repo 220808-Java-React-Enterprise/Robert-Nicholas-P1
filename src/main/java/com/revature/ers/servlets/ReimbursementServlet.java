@@ -9,6 +9,7 @@ import com.revature.ers.models.Reimbursement;
 import com.revature.ers.services.ReimbursementService;
 import com.revature.ers.services.TokenService;
 import com.revature.ers.services.UserService;
+import com.revature.ers.utils.custom_exceptions.AuthenticationException;
 import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
 import com.revature.ers.utils.custom_exceptions.ResourceConflictException;
 
@@ -41,42 +42,38 @@ public class ReimbursementServlet extends HttpServlet {
 
         try {
             // Verify token
-            if (principal.getRoleId().equals(userService.getRoleIdByUserId(principal.getId()))){
-                // Get token user role
-                String role = userService.getRoleByRoleId(principal.getRoleId());
-
-                // If role is manager
-                if (role.equals("MANAGER")){
-                    resp.getWriter().write("<h1>Manager</h1>");
-                }
-                // If role is employee
-                else if (role.equals("EMPLOYEE")){
-                    // Get list of employee reimbursements
-                    Map<String, ReimbursementResponse> ls = reimbursementService.getReimbursementResponseList(principal.getUsername());
-                    String id;
-
-                    // If id is not null print detailed reimbursement
-                    if ((id = req.getParameter("id")) != null)
-                        resp.getWriter().write(ls.get(id).toStringDetailed());
-                    // Print list
-                    else{
-                        resp.getWriter().write("<ul>");
-                        for (ReimbursementResponse r : ls.values()){
-                            resp.getWriter().write("<a href=\"http://localhost:8080/ers/reimb?id=" + r.getId() + "\">Details</a>");
-                            resp.getWriter().write("<li>" + r + "</li>");
-                        }
-                        resp.getWriter().write("</ul>");
-                    }
-
-                    resp.setStatus(200);
-                }
+            // If role is manager
+            if (principal.getRole().equals("MANAGER")){
+                resp.getWriter().write("<h1>Manager</h1>");
             }
+            // If role is employee
+            else if (principal.getRole().equals("EMPLOYEE")){
+                // Get list of employee reimbursements
+                Map<String, ReimbursementResponse> ls = reimbursementService.getReimbursementResponseList(principal.getUsername());
+                String id;
 
-        } catch (NullPointerException e){
-            resp.setStatus(401);    // Unauthorized
-        } catch (InvalidRequestException e){
+                // If id is not null print detailed reimbursement
+                if ((id = req.getParameter("id")) != null)
+                    resp.getWriter().write(ls.get(id).toStringDetailed());
+                    // Print list
+                else{
+                    resp.getWriter().write("<ul>");
+                    for (ReimbursementResponse r : ls.values()){
+                        resp.getWriter().write("<a href=\"http://localhost:8080/ers/reimb?id=" + r.getId() + "\">Details</a>");
+                        resp.getWriter().write("<li>" + r + "</li>");
+                    }
+                    resp.getWriter().write("</ul>");
+                }
+
+                resp.setStatus(200);
+            }
+            else throw new AuthenticationException("Unauthorized");
+
+        }  catch (InvalidRequestException e){
+            resp.getWriter().write(e.toString());
             resp.setStatus(404);    // Bad Request
         } catch (ResourceConflictException e){
+            resp.getWriter().write(e.toString());
             resp.setStatus(409);    // Conflict
         }
     }
@@ -87,49 +84,71 @@ public class ReimbursementServlet extends HttpServlet {
         Principal principal = tokenService.extractRequesterDetails(token);
 
         try{
-            if (principal.getRoleId().equals(userService.getRoleIdByUserId(principal.getId()))){
-                String role = userService.getRoleByRoleId(principal.getRoleId());
-
-                exit:{
-                    if (role.equals("MANAGER")){
-                        resp.getWriter().write("<h1>Manager</h1>");
-                    }
-                    else if (role.equals("EMPLOYEE")){
-                        ReimbursementRequest request = mapper.readValue(req.getInputStream(), ReimbursementRequest.class);
-                        String id;
-
-                        // Update reimbursement
-                        if ((id = req.getParameter("id")) != null) {
-                            Map<String, Reimbursement> ls = reimbursementService.getReimbursementList(principal.getId());
-                            if (reimbursementService.getStatus(ls.get(id).getStatusId()).equals("PENDING")){
-                                Reimbursement reimbursement = ls.get(id);
-                                reimbursement.setAmount(request.getAmount());
-                                reimbursement.setDescription(request.getDescription());
-                                reimbursement.setReceipt(request.getReceipt());
-                                reimbursement.setPaymentId(request.getPaymentId());
-                                reimbursement.setSubmitted(new Timestamp(System.currentTimeMillis()));
-                                reimbursement.setTypeId(reimbursementService.getTypeId(request.getType().toUpperCase()));
-                                reimbursementService.updateReimbursement(reimbursement);
-                            }
-                            else{resp.setStatus(409); break exit;}
-                        }
-                        // Submit new reimbursement
-                        else
-                            reimbursementService.submit(request, principal.getId());
-
-                        resp.getWriter().write("Request Submitted");
-                        resp.setStatus(200);
-                    }
-                }
+            if (principal.getRole().equals("MANAGER")){
+                resp.getWriter().write("<h1>Manager</h1>");
             }
+            else if (principal.getRole().equals("EMPLOYEE")){
+                ReimbursementRequest request = mapper.readValue(req.getInputStream(), ReimbursementRequest.class);
+
+                // Submit new reimbursement
+                reimbursementService.submit(request, principal.getId());
+
+                resp.getWriter().write("Request Submitted");
+                resp.setStatus(200);
+            }
+            else throw new AuthenticationException("Unauthorized");
+
         } catch (NullPointerException e){
+            resp.getWriter().write(e.toString());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
+            resp.getWriter().write(e.toString());
             resp.setStatus(404);    // Bad Request
         } catch (ResourceConflictException | InvalidFormatException e){
+            resp.getWriter().write(e.toString());
             resp.setStatus(409);    // Conflict
         }
     }
 
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String token = req.getHeader("Authorization");
+        Principal principal = tokenService.extractRequesterDetails(token);
 
+        try{
+            if (principal.getRole().equals("MANAGER")){
+                resp.getWriter().write("<h1>Manager</h1>");
+            }
+            else if (principal.getRole().equals("EMPLOYEE")){
+                ReimbursementRequest request = mapper.readValue(req.getInputStream(), ReimbursementRequest.class);
+                String id;
+
+                // Update reimbursement
+                if ((id = req.getParameter("id")) != null) {
+                    Map<String, Reimbursement> ls = reimbursementService.getReimbursementList(principal.getId());
+                    if (reimbursementService.getStatus(ls.get(id).getStatusId()).equals("PENDING")){
+                        Reimbursement reimbursement = ls.get(id);
+                        reimbursement.setAmount(request.getAmount());
+                        reimbursement.setDescription(request.getDescription());
+                        reimbursement.setReceipt(request.getReceipt());
+                        reimbursement.setPaymentId(request.getPaymentId());
+                        reimbursement.setSubmitted(new Timestamp(System.currentTimeMillis()));
+                        reimbursement.setTypeId(reimbursementService.getTypeId(request.getType().toUpperCase()));
+                        reimbursementService.updateReimbursement(reimbursement);
+                    }
+                }
+                else throw new ResourceConflictException("No id found");
+            }
+            else throw new AuthenticationException("Unauthorized");
+        }catch (NullPointerException e){
+            resp.getWriter().write(e.toString());
+            resp.setStatus(401);    // Unauthorized
+        } catch (InvalidRequestException e){
+            resp.getWriter().write(e.toString());
+            resp.setStatus(404);    // Bad Request
+        } catch (ResourceConflictException | InvalidFormatException e){
+            resp.getWriter().write(e.toString());
+            resp.setStatus(409);    // Conflict
+        }
+    }
 }

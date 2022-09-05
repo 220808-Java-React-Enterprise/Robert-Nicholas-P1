@@ -6,7 +6,7 @@ import com.revature.ers.dtos.responses.Principal;
 import com.revature.ers.dtos.responses.UserResponse;
 import com.revature.ers.services.TokenService;
 import com.revature.ers.services.UserService;
-import com.revature.ers.utils.custom_exceptions.AuthernticationException;
+import com.revature.ers.utils.custom_exceptions.AuthenticationException;
 import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
 
 import javax.servlet.ServletException;
@@ -29,10 +29,9 @@ public class AuthServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         try{
-
             LoginRequest request = mapper.readValue(req.getInputStream(), LoginRequest.class);
             UserResponse response = userService.login(request);
-            Principal principal = new Principal(response.getId(), response.getUsername(), response.getRoleId());
+            Principal principal = new Principal(response.getId(), response.getUsername(), response.getRole());
             String token = tokenService.generateToken(principal);
 
             resp.setStatus(200);
@@ -40,8 +39,10 @@ public class AuthServlet extends HttpServlet {
             resp.setContentType("application/json");
 
         } catch (InvalidRequestException e){
+            resp.getWriter().write(e.toString());
             resp.setStatus(404); // Bad Request
-        } catch (AuthernticationException e){
+        } catch (AuthenticationException e){
+            resp.getWriter().write(e.toString());
             resp.setStatus(401); // Invalid Cred
         }
     }

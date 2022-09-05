@@ -27,7 +27,7 @@ public class TokenService {
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now + jwtConfig.getExpiration()))
                 .setSubject(subject.getUsername())
-                .claim("role", subject.getRoleId())
+                .claim("role", subject.getRole())
                 .signWith(jwtConfig.getSigAlg(), jwtConfig.getSigningKey());
 
         return tokenBuilder.compact();

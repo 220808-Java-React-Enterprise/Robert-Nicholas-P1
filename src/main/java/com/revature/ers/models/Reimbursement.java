@@ -19,6 +19,8 @@ public class Reimbursement {
         this.paymentId = paymentId;
         this.authorId = authorId;
         this.resolverId = null;
+        this.statusId = statusId;
+        this.typeId = typeId;
   }
 
 

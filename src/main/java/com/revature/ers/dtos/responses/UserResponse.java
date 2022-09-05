@@ -1,15 +1,17 @@
 package com.revature.ers.dtos.responses;
 
 public class UserResponse {
-    private String id, username, email, givenName, surName, roleId;
+    private String id, username, email, givenName, surName, role;
+    private boolean isActive;
 
-    public UserResponse(String id, String username, String email, String givenName, String surName, String roleId) {
+    public UserResponse(String id, String username, String email, String givenName, String surName, String role, boolean isActive) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.givenName = givenName;
         this.surName = surName;
-        this.roleId = roleId;
+        this.role = role;
+        this.isActive = isActive;
     }
 
     public String getId() {
@@ -52,12 +54,20 @@ public class UserResponse {
         this.surName = surName;
     }
 
-    public String getRoleId() {
-        return roleId;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setRole(String roleId) {
+        this.role = roleId;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @Override
@@ -68,7 +78,19 @@ public class UserResponse {
                 ", email='" + email + '\'' +
                 ", givenName='" + givenName + '\'' +
                 ", surName='" + surName + '\'' +
-                ", roleId='" + roleId + '\'' +
+                ", roleId='" + role + '\'' +
+                '}';
+    }
+
+    public String toStringAdmin(){
+        return "UserResponse{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", givenName='" + givenName + '\'' +
+                ", surName='" + surName + '\'' +
+                ", roleId='" + role + '\'' +
+                ", isActive='" + isActive + '\'' +
                 '}';
     }
 }

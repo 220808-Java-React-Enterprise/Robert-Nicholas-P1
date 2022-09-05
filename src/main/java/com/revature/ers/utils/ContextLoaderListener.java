@@ -25,12 +25,13 @@ public class ContextLoaderListener implements ServletContextListener {
         AuthServlet authServlet = new AuthServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO(), new UserRoleDAO()));
         ReimbursementServlet reimbursementServlet = new ReimbursementServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO(),
                 new UserRoleDAO()), new ReimbursementService(new ReimbursementDAO(), new ReimbursementTypeDAO(), new ReimbursementStatusDAO()));
-        ManagerServlet managerServlet = new ManagerServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO()), new ReimbursementService(new ReimbursementDAO()));
+        ManagerServlet managerServlet = new ManagerServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO(), new UserRoleDAO()),
+                new ReimbursementService(new ReimbursementDAO(), new ReimbursementTypeDAO(), new ReimbursementStatusDAO()));
 
 
         // Need ServletContext class to map whatever servlet to url path
         ServletContext context = sce.getServletContext();
-        context.addServlet("UserServlet", userServlet).addMapping("/users");
+        context.addServlet("UserServlet", userServlet).addMapping("/users/*");
         context.addServlet("AuthServlet", authServlet).addMapping("/login");
         context.addServlet("ReimbursementServlet", reimbursementServlet).addMapping("/reimb/*");
         context.addServlet("ManagerServlet", managerServlet).addMapping("/manager/*");
