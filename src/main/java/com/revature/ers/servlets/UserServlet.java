@@ -49,13 +49,13 @@ public class UserServlet extends HttpServlet {
             else throw new InvalidRequestException("Not a valid path");
 
         } catch (NullPointerException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(404);    // Bad Request
         } catch (ResourceConflictException e){
-            resp.getWriter().write(mapper.writeValueAsString(e.toString()));
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(409);    // Conflict
         }
     }
@@ -88,10 +88,10 @@ public class UserServlet extends HttpServlet {
             else resp.setStatus(401); // Unauthorized
 
         } catch (NullPointerException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(401); // Unauthorized
         } catch (InvalidRequestException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(404); // Bad Request
         }
     }
@@ -116,13 +116,13 @@ public class UserServlet extends HttpServlet {
             else throw new InvalidRequestException("Not a valid path");
 
         } catch (NullPointerException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(404);    // Bad Request
         } catch (ResourceConflictException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(409);    // Conflict
         }
     }
@@ -144,13 +144,13 @@ public class UserServlet extends HttpServlet {
             else throw new InvalidRequestException("Not a valid path");
 
         } catch (NullPointerException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(404);    // Bad Request
         } catch (ResourceConflictException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(409);    // Conflict
         }
     }

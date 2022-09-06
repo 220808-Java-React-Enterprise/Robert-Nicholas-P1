@@ -70,10 +70,10 @@ public class ReimbursementServlet extends HttpServlet {
             else throw new AuthenticationException("Unauthorized");
 
         }  catch (InvalidRequestException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(404);    // Bad Request
         } catch (ResourceConflictException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(409);    // Conflict
         }
     }
@@ -99,13 +99,13 @@ public class ReimbursementServlet extends HttpServlet {
             else throw new AuthenticationException("Unauthorized");
 
         } catch (NullPointerException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(404);    // Bad Request
         } catch (ResourceConflictException | InvalidFormatException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(409);    // Conflict
         }
     }
@@ -141,13 +141,13 @@ public class ReimbursementServlet extends HttpServlet {
             }
             else throw new AuthenticationException("Unauthorized");
         }catch (NullPointerException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(404);    // Bad Request
         } catch (ResourceConflictException | InvalidFormatException e){
-            resp.getWriter().write(e.toString());
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(409);    // Conflict
         }
     }
