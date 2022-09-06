@@ -10,6 +10,8 @@ import com.revature.ers.utils.custom_exceptions.AuthenticationException;
 import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
 import com.revature.ers.utils.custom_exceptions.ResourceConflictException;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -35,8 +37,10 @@ public class UserService {
                         if (isValidPassword(request.getPassword1()))
                             if (isSamePassword(request.getPassword1(), request.getPassword2()))
                                 if (isValidName(request.getGivenName()) && isValidName(request.getSurName())){
+
                                     user = new User(UUID.randomUUID().toString(), request.getUsername(), request.getEmail(),
-                                        request.getPassword1(), request.getGivenName(), request.getSurName(),
+                                            digestPassword(request.getPassword1()),
+                                            request.getGivenName(), request.getSurName(),
                                             userDAO.getRoleIdByRole(request.getRoleId().toUpperCase()), false);
                                     if (user.getRoleId() == null) throw new ResourceConflictException("Error with roleId");
                                     userDAO.save(user);
@@ -55,7 +59,7 @@ public class UserService {
     // Post: A user should be logged in
     // Purpose: To log in a user
     public UserResponse login(LoginRequest request){
-        User user = userDAO.getUserByUsernameAndPassword(request.getUsername(), request.getPassword());
+        User user = userDAO.getUserByUsernameAndPassword(request.getUsername(), digestPassword(request.getPassword()));
         // User doesn't exist
         if (user == null) throw new AuthenticationException("Incorrect username or password");
             // User exists but account isn't active
@@ -168,5 +172,21 @@ public class UserService {
         if (!name.matches("^[\\p{L} .'-]+$"))
             throw new ResourceConflictException("\nInvalid format!");
         return true;
+    }
+    private String digestPassword(String password)  {
+
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        messageDigest.update(password.getBytes());
+        byte[] digest = messageDigest.digest();
+        StringBuffer hexStr=new StringBuffer();
+        for (int i = 0; i< digest.length; i++){
+            hexStr.append(Integer.toHexString(0xFF & digest[i]));
+        }
+        return hexStr.toString();
     }
 }
