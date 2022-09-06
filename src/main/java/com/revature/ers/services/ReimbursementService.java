@@ -61,15 +61,6 @@ public class ReimbursementService {
         return ls;
     }
 
-    // Pre:
-    // Post:
-    // Purpose:
-    public boolean isValidAmount(String amount){
-        if (!amount.matches("^\\$[0-9]+(\\.[0-9][0-9])?$"))
-            throw new InvalidRequestException("\nInvalid amount format");
-        return true;
-    }
-
     public List<Reimbursement> getByType(String filter) {
         return reimbursementDAO.getByType(filter);
     }
@@ -91,7 +82,7 @@ public class ReimbursementService {
                             "<th>" + n.getId() + "</th>" +
                             "<th>" + n.getAmount() + "</th>" +
                             "<th>" + n.getSubmitted() + "</th>" +
-                            "<th>" + n.getAuthor() + "</th>" +
+                            "<th>" + n.getAuthorId() + "</th>" +
                             "<th>" + n.getTypeId() + "</th>" +
                             "</tr>";
         }
@@ -119,7 +110,7 @@ public class ReimbursementService {
                         "<th>" + n.getId() + "</th>" +
                         "<th>" + n.getAmount() + "</th>" +
                         "<th>" + n.getSubmitted() + "</th>" +
-                        "<th>" + n.getAuthor() + "</th>" +
+                        "<th>" + n.getAuthorId() + "</th>" +
                         "<th>" + n.getTypeId() + "</th>" +
                     "</tr>";
         }

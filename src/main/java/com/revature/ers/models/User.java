@@ -5,17 +5,6 @@ public class User {
     private String id, username, email, password, givenName, surName, roleId;
     private boolean isActive;
 
-    public User(String id, String username, String email, String password, String givenName, String surName, String roleId) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.givenName = givenName;
-        this.surName = surName;
-        this.roleId = roleId;
-        this.isActive = true;
-    }
-
     public User(String id, String username, String email, String password, String givenName, String surName, String roleId, boolean isActive) {
         this.id = id;
         this.username = username;

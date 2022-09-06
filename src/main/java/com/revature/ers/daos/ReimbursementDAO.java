@@ -33,7 +33,6 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
     }
 
     @Override
-
     public void update(Reimbursement obj) {
         try(Connection con = ConnectionFactory.getInstance().getConnection()){
             PreparedStatement ps = con.prepareStatement("UPDATE ers_reimbursements SET amount = ?, " +
@@ -58,7 +57,7 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
     @Override
     public List<Reimbursement> getAll() {
         try (Connection con = ConnectionFactory.getInstance().getConnection()){
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM testnicholas.ers_reimbursements");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM ers_reimbursements");
 
             ResultSet rs = ps.executeQuery();
             List<Reimbursement> reimbursementList = new ArrayList<>();
@@ -75,7 +74,7 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
 
     public List<Reimbursement> getByType(String filter) {
         try (Connection con = ConnectionFactory.getInstance().getConnection()){
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM testnicholas.ers_reimbursements where type_id = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM ers_reimbursements where type_id = ?");
             ps.setString(1,filter);
             ResultSet rs = ps.executeQuery();
             List<Reimbursement> reimbursementList = new ArrayList<>();
@@ -92,7 +91,7 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
 
     public List<Reimbursement> getByStatus(String filter) {
         try (Connection con = ConnectionFactory.getInstance().getConnection()){
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM testnicholas.ers_reimbursements where status_id = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM ers_reimbursements where status_id = ?");
             ps.setString(1,filter);
             ResultSet rs = ps.executeQuery();
             List<Reimbursement> reimbursementList = new ArrayList<>();
@@ -110,7 +109,7 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
 
     public List<Reimbursement> getManagerHistory(String id) {
         try (Connection con = ConnectionFactory.getInstance().getConnection()){
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM testnicholas.ers_reimbursements where resolver_id = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM ers_reimbursements where resolver_id = ?");
             ps.setString(1,id);
             ResultSet rs = ps.executeQuery();
             List<Reimbursement> reimbursementList = new ArrayList<>();

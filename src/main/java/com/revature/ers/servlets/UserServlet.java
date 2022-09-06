@@ -3,9 +3,11 @@ package com.revature.ers.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.ers.dtos.requests.UserRequest;
 import com.revature.ers.dtos.responses.Principal;
+import com.revature.ers.dtos.responses.UserResponse;
 import com.revature.ers.models.User;
 import com.revature.ers.services.TokenService;
 import com.revature.ers.services.UserService;
+import com.revature.ers.utils.custom_exceptions.AuthenticationException;
 import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
 import com.revature.ers.utils.custom_exceptions.ResourceConflictException;
 
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 public class UserServlet extends HttpServlet {
     private final ObjectMapper mapper;
@@ -31,32 +34,28 @@ public class UserServlet extends HttpServlet {
         String token = req.getHeader("Authorization");
         Principal principal = tokenService.extractRequesterDetails(token);
 
-
-
         try {
-            if (principal.getRoleId().equals(userService.getRoleIdByUserId(principal.getId()))) {
-                UserRequest request = mapper.readValue(req.getInputStream(), UserRequest.class);
+            UserRequest request = mapper.readValue(req.getInputStream(), UserRequest.class);
 
-                String[] path = req.getRequestURI().split("/");
+            String[] path = req.getRequestURI().split("/");
 
-                if (path[3].equalsIgnoreCase("signup")){
-                    User createdUser = userService.register(request);
+            if (path[3].equalsIgnoreCase("signup")){
+                userService.register(request);
 
-                    resp.setStatus(200);
-                    resp.setContentType("application/json");
-                    resp.getWriter().write(mapper.writeValueAsString(createdUser.getId()));
-                }
-                else if (path[3].equalsIgnoreCase("login")){
-
-                }
-                else;
+                resp.setStatus(200);
+                resp.setContentType("application/json");
+                resp.getWriter().write(mapper.writeValueAsString("Sign up request submitted."));
             }
+            else throw new InvalidRequestException("Not a valid path");
 
         } catch (NullPointerException e){
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(404);    // Bad Request
         } catch (ResourceConflictException e){
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(409);    // Conflict
         }
     }
@@ -67,18 +66,92 @@ public class UserServlet extends HttpServlet {
         Principal principal = tokenService.extractRequesterDetails(token);
 
         try {
-            if (principal.getRoleId().equals(userService.getRoleIdByUserId(principal.getId()))) {
-                String username = req.getParameter("username");
+            // If role is Admin
+            if (principal.getRole().equals("ADMIN")){
+                Map<String, UserResponse> ls = userService.getUserList();
+                String id;
+                // If id is not null print detailed reimbursement
+                if ((id = req.getParameter("id")) != null)
+                    resp.getWriter().write(ls.get(id).toStringAdmin());
+                    // Print list
+                else{
+                    resp.getWriter().write("<ul>");
+                    for (UserResponse r : ls.values()){
+                        resp.getWriter().write("<li>" + r.toStringAdmin() + "</li>");
+                    }
+                    resp.getWriter().write("</ul>");
+                }
 
                 resp.setStatus(200);
                 resp.setContentType("application/json");
-
             }
+            else resp.setStatus(401); // Unauthorized
 
         } catch (NullPointerException e){
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(401); // Unauthorized
         } catch (InvalidRequestException e){
+            resp.getWriter().write(e.getMessage());
             resp.setStatus(404); // Bad Request
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String token = req.getHeader("Authorization");
+        Principal principal = tokenService.extractRequesterDetails(token);
+
+        try {
+            UserRequest request = mapper.readValue(req.getInputStream(), UserRequest.class);
+
+            String[] path = req.getRequestURI().split("/");
+
+            if (path[3].equalsIgnoreCase("admin")){
+                if (!principal.getRole().equals("ADMIN")){
+                    throw new AuthenticationException("Not an authenticated user");
+                }
+                User user = userService.getUserById(req.getParameter("id"));
+                userService.updateUser(user, request);
+            }
+            else throw new InvalidRequestException("Not a valid path");
+
+        } catch (NullPointerException e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(401);    // Unauthorized
+        } catch (InvalidRequestException e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(404);    // Bad Request
+        } catch (ResourceConflictException e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(409);    // Conflict
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String token = req.getHeader("Authorization");
+        Principal principal = tokenService.extractRequesterDetails(token);
+
+        try {
+            String[] path = req.getRequestURI().split("/");
+
+            if (path[3].equalsIgnoreCase("admin")){
+                if (!principal.getRole().equals("ADMIN")){
+                    throw new AuthenticationException("Not an authenticated user");
+                }
+                userService.deleteUser(req.getParameter("id"));
+            }
+            else throw new InvalidRequestException("Not a valid path");
+
+        } catch (NullPointerException e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(401);    // Unauthorized
+        } catch (InvalidRequestException e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(404);    // Bad Request
+        } catch (ResourceConflictException e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(409);    // Conflict
         }
     }
 }

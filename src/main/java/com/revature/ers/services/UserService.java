@@ -6,10 +6,11 @@ import com.revature.ers.dtos.requests.LoginRequest;
 import com.revature.ers.dtos.requests.UserRequest;
 import com.revature.ers.dtos.responses.UserResponse;
 import com.revature.ers.models.User;
-import com.revature.ers.utils.custom_exceptions.AuthernticationException;
+import com.revature.ers.utils.custom_exceptions.AuthenticationException;
 import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
 import com.revature.ers.utils.custom_exceptions.ResourceConflictException;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class UserService {
@@ -21,10 +22,11 @@ public class UserService {
         this.userRoleDAO = userRoleDAO;
     }
 
-    // Pre:
-    // Post:
-    // Purpose:
+    // Pre: A new user request is made
+    // Post: A new user request in submitted
+    // Purpose: To submit a new user request
     public User register(UserRequest request){
+        System.out.println(userDAO.getRoleIdByRole(request.getRoleId().toUpperCase()));
         User user = null;
         if (isValidUsername(request.getUsername()))
             if (!isDuplicateUsername(request.getUsername()))
@@ -34,7 +36,9 @@ public class UserService {
                             if (isSamePassword(request.getPassword1(), request.getPassword2()))
                                 if (isValidName(request.getGivenName()) && isValidName(request.getSurName())){
                                     user = new User(UUID.randomUUID().toString(), request.getUsername(), request.getEmail(),
-                                        request.getPassword1(), request.getGivenName(), request.getSurName(), userDAO.getUserRoleIdByRole(request.getRoleId().toUpperCase()));
+                                        request.getPassword1(), request.getGivenName(), request.getSurName(),
+                                            userDAO.getRoleIdByRole(request.getRoleId().toUpperCase()), false);
+                                    if (user.getRoleId() == null) throw new ResourceConflictException("Error with roleId");
                                     userDAO.save(user);
                                 }
         return user;
@@ -43,23 +47,62 @@ public class UserService {
     // Pre:
     // Post:
     // Purpose:
+    public void deleteUser(String id){
+        userDAO.delete(id);
+    }
+
+    // Pre: User wants to log in
+    // Post: A user should be logged in
+    // Purpose: To log in a user
     public UserResponse login(LoginRequest request){
         User user = userDAO.getUserByUsernameAndPassword(request.getUsername(), request.getPassword());
-        if (user == null) throw new AuthernticationException("\nIncorrect username or password");
+        // User doesn't exist
+        if (user == null) throw new AuthenticationException("Incorrect username or password");
+            // User exists but account isn't active
+        else if (!user.isActive()) throw new AuthenticationException("Account not active.");
+        // User good to go
         return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getGivenName(),
-                user.getSurName(), user.getRoleId());
+                user.getSurName(), userRoleDAO.getRoleById(user.getRoleId()), user.isActive());
     }
 
     // Pre:
     // Post:
     // Purpose:
+    public void updateUser(User user, UserRequest request){
+        if (request.getPassword1() != null)
+            if (isValidPassword(request.getPassword1()))
+                user.setPassword(request.getPassword1());
+
+        user.setActive(request.isActive());
+        userDAO.update(user);
+    }
+
+    // Pre:
+    // Post:
+    // Purpose:
+    public Map<String, UserResponse> getUserList(){
+        Map<String, UserResponse> ls = userDAO.getAllResponse();
+        if (ls == null) throw new InvalidRequestException("\nNo users found");
+        return ls;
+    }
+
+    // Pre:
+    // Post:
+    // Purpose:
+    public User getUserById(String id){
+        return userDAO.getById(id);
+    }
+
+    // Pre: A userId is passed in
+    // Post: The role id is returned
+    // Purpose: To get the role id by user id
     public String getRoleIdByUserId(String userId){
-        return userDAO.getUserRoleIdByUserId(userId);
+        return userDAO.getRoleIdByUserId(userId);
     }
 
-    // Pre:
-    // Post:
-    // Purpose:
+    // Pre: Role name is requested
+    // Post: The role id is returned
+    // Purpose: To get the role id by role name
     public String getRoleByRoleId(String id){
         return userRoleDAO.getRoleById(id);
     }
@@ -69,7 +112,7 @@ public class UserService {
     // Purpose: To validate a username provided by the user
     public boolean isValidUsername(String username) {
         if (!username.matches("^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$"))
-            throw new InvalidRequestException("\nInvalid username! username is 8-20 characters long. no _ or . at the beginning. no __ or _. or ._ or .. inside");
+            throw new ResourceConflictException("\nInvalid username! username is 8-20 characters long. no _ or . at the beginning. no __ or _. or ._ or .. inside");
         return true;
     }
 
@@ -78,7 +121,7 @@ public class UserService {
     // Purpose: To check if the username provided is taken
     public boolean isDuplicateUsername(String username){
         if (userDAO.getUsername(username) != null)
-            throw new ResourceConflictException("\nSorry, " + username + " is already taken");
+            throw new ResourceConflictException("Sorry, " + username + " is already taken");
         return false;
     }
 
@@ -87,7 +130,7 @@ public class UserService {
     // Purpose: To validate an email provided by the user
     public boolean isValidEmail(String email){
         if (!email.matches("[A-Za-z0-9][A-Za-z0-9\\!\\#\\$\\%\\&\\'\\*\\+\\-\\/\\=\\?\\^\\_\\`\\{\\}\\|]{0,63}@[A-Za-z0-9.-]{1,253}.[A-Za-z]{2,24}"))
-            throw new InvalidRequestException("\nInvalid email format!");
+            throw new ResourceConflictException("\nInvalid email format!");
         return true;
     }
 
@@ -105,7 +148,7 @@ public class UserService {
     // Purpose: To validate a password provided by the user
     public boolean isValidPassword(String pass){
         if (!pass.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
-            throw new InvalidRequestException("\nInvalid password! Minimum eight characters, at least one letter and one number");
+            throw new ResourceConflictException("\nInvalid password! Minimum eight characters, at least one letter and one number");
         return true;
     }
 
@@ -123,7 +166,7 @@ public class UserService {
     // Purpose: To validate a name provided by the user
     public boolean isValidName(String name){
         if (!name.matches("^[\\p{L} .'-]+$"))
-            throw new InvalidRequestException("\nInvalid format!");
+            throw new ResourceConflictException("\nInvalid format!");
         return true;
     }
 }
