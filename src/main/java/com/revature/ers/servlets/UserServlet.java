@@ -46,7 +46,6 @@ public class UserServlet extends HttpServlet {
             else throw new InvalidRequestException("Not a valid path");
 
         } catch (NullPointerException e){
-            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
             resp.getWriter().write(e.getMessage());
@@ -85,7 +84,6 @@ public class UserServlet extends HttpServlet {
             else resp.setStatus(401); // Unauthorized
 
         } catch (NullPointerException e){
-            resp.getWriter().write(e.getMessage());
             resp.setStatus(401); // Unauthorized
         } catch (InvalidRequestException e){
             resp.getWriter().write(e.getMessage());
@@ -103,19 +101,18 @@ public class UserServlet extends HttpServlet {
 
             String[] path = req.getRequestURI().split("/");
 
-            if (path[3].equalsIgnoreCase("admin")){
-                if (!principal.getRole().equals("ADMIN")){
+            if (path[3].equalsIgnoreCase("admin")) {
+                if (!principal.getRole().equals("ADMIN")) {
                     throw new AuthenticationException("Not an authenticated user");
                 }
                 User user = userService.getUserById(req.getParameter("id"));
                 userService.updateUser(user, request);
-            }
-            else throw new InvalidRequestException("Not a valid path");
+                resp.getWriter().write("User updated");
+            } else throw new InvalidRequestException("Not a valid path");
 
         } catch (NullPointerException e){
-            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
-        } catch (InvalidRequestException e){
+        } catch (InvalidRequestException | IndexOutOfBoundsException e){
             resp.getWriter().write(e.getMessage());
             resp.setStatus(404);    // Bad Request
         } catch (ResourceConflictException e){
@@ -137,11 +134,11 @@ public class UserServlet extends HttpServlet {
                     throw new AuthenticationException("Not an authenticated user");
                 }
                 userService.deleteUser(req.getParameter("id"));
+                resp.getWriter().write("User removed");
             }
             else throw new InvalidRequestException("Not a valid path");
 
         } catch (NullPointerException e){
-            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
             resp.getWriter().write(e.getMessage());

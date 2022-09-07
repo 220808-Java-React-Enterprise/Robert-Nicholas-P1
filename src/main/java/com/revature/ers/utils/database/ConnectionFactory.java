@@ -22,7 +22,7 @@ public class ConnectionFactory {
 
     private ConnectionFactory(){
         try{
-            properties.load(new FileReader("S:\\WorkFiles\\Git\\Revature\\Robert-Nicholas-P1\\src\\main\\java\\com\\revature\\ers\\utils\\database\\db.properties"));
+            properties.load(new FileReader("db.properties"));
         } catch (IOException e){
             e.printStackTrace();
         }

@@ -75,6 +75,8 @@ public class ReimbursementServlet extends HttpServlet {
         } catch (ResourceConflictException e){
             resp.getWriter().write(e.getMessage());
             resp.setStatus(409);    // Conflict
+        } catch (NullPointerException e){
+            resp.setStatus(401);
         }
     }
 
@@ -99,7 +101,6 @@ public class ReimbursementServlet extends HttpServlet {
             else throw new AuthenticationException("Unauthorized");
 
         } catch (NullPointerException e){
-            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
             resp.getWriter().write(e.getMessage());
@@ -141,7 +142,6 @@ public class ReimbursementServlet extends HttpServlet {
             }
             else throw new AuthenticationException("Unauthorized");
         }catch (NullPointerException e){
-            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
             resp.getWriter().write(e.getMessage());
