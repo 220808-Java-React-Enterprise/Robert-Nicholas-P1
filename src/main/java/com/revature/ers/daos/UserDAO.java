@@ -148,17 +148,4 @@ public class UserDAO implements CrudDAO<User>{
         }
         return null;
     }
-
-    public String getRoleIdByUserId(String userId){
-        try(Connection con = ConnectionFactory.getInstance().getConnection()){
-            PreparedStatement ps = con.prepareStatement("SELECT (role_id) FROM ers_users WHERE id = ?");
-            ps.setString(1, userId);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) return rs.getString("role_id");
-        } catch (SQLException e){
-            throw new InvalidSQLException("Error getting role_id from user id");
-        }
-        return null;
-    }
 }

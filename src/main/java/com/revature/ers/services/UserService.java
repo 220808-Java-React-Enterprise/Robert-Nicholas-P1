@@ -28,7 +28,6 @@ public class UserService {
     // Post: A new user request in submitted
     // Purpose: To submit a new user request
     public User register(UserRequest request){
-        System.out.println(userDAO.getRoleIdByRole(request.getRoleId().toUpperCase()));
         User user = null;
         if (isValidUsername(request.getUsername()))
             if (!isDuplicateUsername(request.getUsername()))
@@ -95,20 +94,6 @@ public class UserService {
     // Purpose:
     public User getUserById(String id){
         return userDAO.getById(id);
-    }
-
-    // Pre: A userId is passed in
-    // Post: The role id is returned
-    // Purpose: To get the role id by user id
-    public String getRoleIdByUserId(String userId){
-        return userDAO.getRoleIdByUserId(userId);
-    }
-
-    // Pre: Role name is requested
-    // Post: The role id is returned
-    // Purpose: To get the role id by role name
-    public String getRoleByRoleId(String id){
-        return userRoleDAO.getRoleById(id);
     }
 
     // Pre: A customer is signing up or updating their account
