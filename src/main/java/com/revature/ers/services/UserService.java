@@ -173,7 +173,7 @@ public class UserService {
             throw new ResourceConflictException("\nInvalid format!");
         return true;
     }
-    private String digestPassword(String password)  {
+    public String digestPassword(String password)  {
 
         MessageDigest messageDigest = null;
         try {
