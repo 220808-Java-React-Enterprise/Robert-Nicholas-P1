@@ -39,12 +39,16 @@ public class ReimbursementServlet extends HttpServlet {
         // Get token from header
         String token = req.getHeader("Authorization");
         Principal principal = tokenService.extractRequesterDetails(token);
-
+        System.out.println("Do get");
         try {
             // Verify token
             // If role is manager
+            System.out.println(principal.getRole());
             if (principal.getRole().equals("MANAGER")){
+                System.out.println("Finance Manager Authorized");
+                String[] path = req.getRequestURI().split("/");
                 resp.getWriter().write("<h1>Manager</h1>");
+
             }
             // If role is employee
             else if (principal.getRole().equals("EMPLOYEE")){
@@ -75,6 +79,8 @@ public class ReimbursementServlet extends HttpServlet {
         } catch (ResourceConflictException e){
             resp.getWriter().write(e.getMessage());
             resp.setStatus(409);    // Conflict
+        } catch (NullPointerException e){
+            resp.setStatus(401);
         }
     }
 
@@ -99,7 +105,6 @@ public class ReimbursementServlet extends HttpServlet {
             else throw new AuthenticationException("Unauthorized");
 
         } catch (NullPointerException e){
-            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
             resp.getWriter().write(e.getMessage());
@@ -141,7 +146,6 @@ public class ReimbursementServlet extends HttpServlet {
             }
             else throw new AuthenticationException("Unauthorized");
         }catch (NullPointerException e){
-            resp.getWriter().write(e.getMessage());
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
             resp.getWriter().write(e.getMessage());

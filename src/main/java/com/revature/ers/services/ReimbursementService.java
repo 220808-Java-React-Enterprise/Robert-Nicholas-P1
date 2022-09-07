@@ -10,6 +10,8 @@ import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
 import com.revature.ers.dtos.responses.Principal;
 
 import java.sql.Timestamp;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -64,62 +66,15 @@ public class ReimbursementService {
     public List<Reimbursement> getByType(String filter) {
         return reimbursementDAO.getByType(filter);
     }
-    public String getHistory(Principal principal){
+    public List<Reimbursement> getHistory(Principal principal){
         List<Reimbursement> reimbursementList =  reimbursementDAO.getManagerHistory(principal.getId());
-        String html =
-                "<table>" +
-                        "<tr>" +
-                        "<th>ID</th>" +
-                        "<th>Amount</th>" +
-                        "<th>Submitted</th>" +
-                        "<th>Author</th>" +
-                        "<th>Type</th>" +
-                        "</tr>";
-
-        for (Reimbursement n : reimbursementList){
-            html +=
-                    "<tr>" +
-                            "<th>" + n.getId() + "</th>" +
-                            "<th>" + n.getAmount() + "</th>" +
-                            "<th>" + n.getSubmitted() + "</th>" +
-                            "<th>" + n.getAuthorId() + "</th>" +
-                            "<th>" + n.getTypeId() + "</th>" +
-                            "</tr>";
-        }
-
-        html +=
-                "</table>";
-
-        return html;
+        return reimbursementList;
     }
-    public String getPendingHtml(String filter) {
+    public List<Reimbursement> getPending(String filter) {
         List<Reimbursement> reimbursementList = reimbursementDAO.getByStatus(filter);
-        String html =
-                "<table>" +
-                    "<tr>" +
-                        "<th>ID</th>" +
-                        "<th>Amount</th>" +
-                        "<th>Submitted</th>" +
-                        "<th>Author</th>" +
-                        "<th>Type</th>" +
-                    "</tr>";
-
-        for (Reimbursement n : reimbursementList){
-            html +=
-                    "<tr>" +
-                        "<th>" + n.getId() + "</th>" +
-                        "<th>" + n.getAmount() + "</th>" +
-                        "<th>" + n.getSubmitted() + "</th>" +
-                        "<th>" + n.getAuthorId() + "</th>" +
-                        "<th>" + n.getTypeId() + "</th>" +
-                    "</tr>";
-        }
-
-        html +=
-                "</table>";
-
-        return html;
+        return reimbursementList;
     }
+
 
     public List<Reimbursement> getByStatus(String filter) {
         return reimbursementDAO.getByStatus(filter);
@@ -130,13 +85,9 @@ public class ReimbursementService {
     }
 
     public void updateStatus(String statusUpdate, String reimbursementId, String resolverId) {
-        reimbursementDAO.updateStatus(statusUpdate, reimbursementId, resolverId);
+        reimbursementDAO.updateStatus(reimbursementStatusDAO.getStatusId(statusUpdate), reimbursementId, resolverId);
     }
 
-    public String toHTTPTable (List<String> header,List<String> rows){
-        String http = "";
 
-        return http;
-    }
 }
 

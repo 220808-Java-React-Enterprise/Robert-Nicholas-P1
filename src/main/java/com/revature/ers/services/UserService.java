@@ -10,6 +10,8 @@ import com.revature.ers.utils.custom_exceptions.AuthenticationException;
 import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
 import com.revature.ers.utils.custom_exceptions.ResourceConflictException;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -26,7 +28,6 @@ public class UserService {
     // Post: A new user request in submitted
     // Purpose: To submit a new user request
     public User register(UserRequest request){
-        System.out.println(userDAO.getRoleIdByRole(request.getRoleId().toUpperCase()));
         User user = null;
         if (isValidUsername(request.getUsername()))
             if (!isDuplicateUsername(request.getUsername()))
@@ -35,8 +36,10 @@ public class UserService {
                         if (isValidPassword(request.getPassword1()))
                             if (isSamePassword(request.getPassword1(), request.getPassword2()))
                                 if (isValidName(request.getGivenName()) && isValidName(request.getSurName())){
+
                                     user = new User(UUID.randomUUID().toString(), request.getUsername(), request.getEmail(),
-                                        request.getPassword1(), request.getGivenName(), request.getSurName(),
+                                            digestPassword(request.getPassword1()),
+                                            request.getGivenName(), request.getSurName(),
                                             userDAO.getRoleIdByRole(request.getRoleId().toUpperCase()), false);
                                     if (user.getRoleId() == null) throw new ResourceConflictException("Error with roleId");
                                     userDAO.save(user);
@@ -55,7 +58,7 @@ public class UserService {
     // Post: A user should be logged in
     // Purpose: To log in a user
     public UserResponse login(LoginRequest request){
-        User user = userDAO.getUserByUsernameAndPassword(request.getUsername(), request.getPassword());
+        User user = userDAO.getUserByUsernameAndPassword(request.getUsername(), digestPassword(request.getPassword()));
         // User doesn't exist
         if (user == null) throw new AuthenticationException("Incorrect username or password");
             // User exists but account isn't active
@@ -91,20 +94,6 @@ public class UserService {
     // Purpose:
     public User getUserById(String id){
         return userDAO.getById(id);
-    }
-
-    // Pre: A userId is passed in
-    // Post: The role id is returned
-    // Purpose: To get the role id by user id
-    public String getRoleIdByUserId(String userId){
-        return userDAO.getRoleIdByUserId(userId);
-    }
-
-    // Pre: Role name is requested
-    // Post: The role id is returned
-    // Purpose: To get the role id by role name
-    public String getRoleByRoleId(String id){
-        return userRoleDAO.getRoleById(id);
     }
 
     // Pre: A customer is signing up or updating their account
@@ -168,5 +157,21 @@ public class UserService {
         if (!name.matches("^[\\p{L} .'-]+$"))
             throw new ResourceConflictException("\nInvalid format!");
         return true;
+    }
+    public String digestPassword(String password)  {
+
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        messageDigest.update(password.getBytes());
+        byte[] digest = messageDigest.digest();
+        StringBuffer hexStr=new StringBuffer();
+        for (int i = 0; i< digest.length; i++){
+            hexStr.append(Integer.toHexString(0xFF & digest[i]));
+        }
+        return hexStr.toString();
     }
 }

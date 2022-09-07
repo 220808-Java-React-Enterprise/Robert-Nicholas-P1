@@ -71,7 +71,7 @@ public class ManagerServlet extends HttpServlet {
         String token = req.getHeader("Authorization");
 
         Principal principal = tokenService.extractRequesterDetails(token);
-
+        System.out.println(principal.toString());
 
         String[] path = req.getRequestURI().split("/");
 
@@ -79,26 +79,16 @@ public class ManagerServlet extends HttpServlet {
             if (principal.getRole().equals("MANAGER")) {
                 System.out.println("Manager Role authenticated");
                 resp.setContentType("application/json");
-                if (path[3].equals("viewreimb")){
-                    String fType = req.getParameter("ftype");
-                    String filter = req.getParameter("filter");
-                    System.out.println(fType + filter);
-                    if (fType.equals("TYPE")){
-                        System.out.println("Filtering by reimbursement type");
-                        resp.getWriter().write(mapper.writeValueAsString(reimbursementService.getPendingHtml(filter)));
-                    }else if (fType.equals("STATUS")){
-                        System.out.println("Filtering by reimbursement status");
-                        resp.getWriter().write(mapper.writeValueAsString(reimbursementService.getByStatus(filter).toString()));
-                    }
-                } else if (path[3].equals("viewreimball")) {
+
+                if (path[3].equals("viewreimball")) {
                     System.out.println("Viewing all reimbursements");
                     resp.getWriter().write(mapper.writeValueAsString(reimbursementService.getAll().toString()));
                 }else if (path[3].equals("viewPending")){
                     System.out.println("Filtering by reimbursement type");
-                    resp.getWriter().write(mapper.writeValueAsString(reimbursementService.getPendingHtml("PENDING")));
+                    resp.getWriter().write(mapper.writeValueAsString(reimbursementService.getPending("PENDING").toString()));
                 }else if (path[3].equals("viewHistory")){
                     System.out.println("Showing manager resolution history");
-                    resp.getWriter().write(mapper.writeValueAsString(reimbursementService.getHistory(principal)));
+                    resp.getWriter().write(mapper.writeValueAsString(reimbursementService.getHistory(principal).toString()));
                 }
 
             } else {
