@@ -31,9 +31,6 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String token = req.getHeader("Authorization");
-        Principal principal = tokenService.extractRequesterDetails(token);
-
         try {
             UserRequest request = mapper.readValue(req.getInputStream(), UserRequest.class);
 

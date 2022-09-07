@@ -26,7 +26,6 @@ public class UserService {
     // Post: A new user request in submitted
     // Purpose: To submit a new user request
     public User register(UserRequest request){
-        System.out.println(userDAO.getRoleIdByRole(request.getRoleId().toUpperCase()));
         User user = null;
         if (isValidUsername(request.getUsername()))
             if (!isDuplicateUsername(request.getUsername()))
