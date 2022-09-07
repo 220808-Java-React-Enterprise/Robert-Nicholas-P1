@@ -92,20 +92,6 @@ public class UserService {
         return userDAO.getById(id);
     }
 
-    // Pre: A userId is passed in
-    // Post: The role id is returned
-    // Purpose: To get the role id by user id
-    public String getRoleIdByUserId(String userId){
-        return userDAO.getRoleIdByUserId(userId);
-    }
-
-    // Pre: Role name is requested
-    // Post: The role id is returned
-    // Purpose: To get the role id by role name
-    public String getRoleByRoleId(String id){
-        return userRoleDAO.getRoleById(id);
-    }
-
     // Pre: A customer is signing up or updating their account
     // Post: The username provided is checked if it is valid
     // Purpose: To validate a username provided by the user
