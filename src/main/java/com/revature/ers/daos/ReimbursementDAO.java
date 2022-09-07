@@ -103,6 +103,8 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
             return reimbursementList;
         } catch (SQLException e) {
             throw new InvalidSQLException("Exception: Problem retrieving from database [getByStatus]");
+        }catch (NullPointerException e){
+            throw new RuntimeException("Returning Null");
         }
     }
 
@@ -135,7 +137,7 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
             ps.setString(2, resolverId);
             ps.setString(3, statusUpdate);
             ps.setString(4,reimbursementId);
-            ResultSet rs = ps.executeQuery();
+            ps.executeUpdate();
 
             System.out.println("Status Updated");
 

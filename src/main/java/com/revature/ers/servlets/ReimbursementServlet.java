@@ -39,12 +39,16 @@ public class ReimbursementServlet extends HttpServlet {
         // Get token from header
         String token = req.getHeader("Authorization");
         Principal principal = tokenService.extractRequesterDetails(token);
-
+        System.out.println("Do get");
         try {
             // Verify token
             // If role is manager
+            System.out.println(principal.getRole());
             if (principal.getRole().equals("MANAGER")){
+                System.out.println("Finance Manager Authorized");
+                String[] path = req.getRequestURI().split("/");
                 resp.getWriter().write("<h1>Manager</h1>");
+
             }
             // If role is employee
             else if (principal.getRole().equals("EMPLOYEE")){

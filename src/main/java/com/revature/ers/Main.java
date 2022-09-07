@@ -4,7 +4,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Main {
-    public static void main(String[] args) throws NoSuchAlgorithmException {
+    public static void main(String[] args) {
+        outputJPG();
+    }
+
+    private static void outputJPG(){
+
+    }
+    void testMessageDigest() throws NoSuchAlgorithmException {
         String ex1 = "Hello";
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
         messageDigest.update(ex1.getBytes());
