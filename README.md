@@ -1,49 +1,57 @@
-#To-Do
-## Use Case to-do
- - Admin features
-   - [x] Admin Login
-   - [ ] Aprove/Deny Account Request
-   - [ ] Update Target User
-   - [ ] Delete Target User
- - Employee Features
-   - [x] Employee Login
-   - [x] View My reimbursements
-   - [x] Submit new reimbursement
-   - [ ] Implement Blob
-   - [x] View Reimbursement Details
-   - [x] Update Reimbursement (Only in pending state)
- - Finance manager features
-   - [x] Manager Login
-   - [x] View ALL reimbursements
-   - [x] Filter Reimbursements
-   - [x] View List of Pending Requests
-   - [x] view History of approved/denied requests 
-   - [ ] View Reimbursement Details
-   - [x] Approve/Deny Reimbursement
-   
-## Checkpoints
-#### 25Aug2022
-- Project requirements delivered
+# P1-ERS
+### Robert-Nicholas-P1
 
-#### 29Aug2022
-- Remote repository is created and is being kept up to date
-- Core model classes are created
-- Registration/Authentication/User operations in progress
+## Index
+- Project Description
+- Technologies
+- Roles
+- ER diagram
+- Usage
+- Contributors
 
-#### 1Sept2022
-- Local DB instance running
-- App to DB connection made
-- Specified tables created with proper constraints
-- Registration/Authentication/User operations complete
-- Reimbursement operations in progress
-- Basic persistence layer operations in progress
-- Testing of business logic is in progress
+## Project Description
 
-#### 05Sept2022
-- Registration/Authentication web endpoints are accessible and functional
-- Reimbursement web endpoints are accessible and functional
-- User passwords are encrypted when persisted to the DB
-- Testing of business logic is in progress
+### Brief
 
-#### 07Sept2022
-- Project Presentations
+For this project we were tasked with created an API that supports an internal expense reimbursement system. This 
+system will assist in the management of reimbursements. Anyone can request an account with the system. However, the
+account must be approved by a system admin to log on. All registered employees in the company can log in, submit
+reimbursement request, update any pending reimbursements they made, and view their history. Managers can log in and
+view all request made to the system. Managers are also authorized to approve or deny any requests made to the system.
+
+
+### Technology
+- Written in Java 8.
+- Intellij
+- Maven
+- JDBC
+- Java EE Servlet
+- JSON Web Tokens
+- PostgresSQL
+- DBeaver
+- AWS - RDS
+- AWS - EC2
+- Tomcat
+- Jenkins
+- Junit
+- Mockito
+- Postman
+
+
+### Roles
+- Admin
+- Manager
+- Employee
+
+
+## ERD
+![ERD](https://lucid.app/publicSegments/view/e22412ef-9ea4-4535-ad35-c05db02d4554/image.png)
+
+## Usage
+Postman folder: 
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/5e8bedb6bdb2e9b5ffdc?action=collection%2Fimport)
+
+## Contributors
+- Robert James
+- Nicholas Fielder
