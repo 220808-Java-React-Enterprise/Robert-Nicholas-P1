@@ -43,6 +43,7 @@ Postman folder for requests:
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/b252708dd05213266c48?action=collection%2Fimport)
 
 - Note: Authorizations keys should be added to the folder NOT the individual requests
+
   ![Note](src/main/resources/Note.png)
 
 ### Roles
