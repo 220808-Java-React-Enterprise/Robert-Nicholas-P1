@@ -46,13 +46,10 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
         }
     }
 
-
     @Override
-
     public void delete(String id) {
 
     }
-
 
     @Override
     public List<Reimbursement> getAll() {
@@ -107,7 +104,6 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
             throw new RuntimeException("Returning Null");
         }
     }
-
 
     public List<Reimbursement> getManagerHistory(String id) {
         try (Connection con = ConnectionFactory.getInstance().getConnection()){
