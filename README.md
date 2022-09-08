@@ -42,13 +42,14 @@ view all request made to the system. Managers are also authorized to approve or 
 - Admin
 - Manager
 - Employee
+![ROLES](https://lucid.app/publicSegments/view/93f3d5a4-9594-480e-a15e-7b9dc9b91f3f/image.png)
 
 
 ## ERD
 ![ERD](https://lucid.app/publicSegments/view/e22412ef-9ea4-4535-ad35-c05db02d4554/image.png)
 
 ## Usage
-Postman folder: 
+Postman folder for requests:
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/5e8bedb6bdb2e9b5ffdc?action=collection%2Fimport)
 
