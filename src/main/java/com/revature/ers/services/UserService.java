@@ -59,10 +59,12 @@ public class UserService {
     // Purpose: To log in a user
     public UserResponse login(LoginRequest request){
         User user;
-        if (request.getUsername().indexOf('@') == -1)
+
+        if (request.getUsername().indexOf('@') != -1)
             user = userDAO.getUserByEmailAndPassword(request.getUsername(), digestPassword(request.getPassword()));
         else
             user = userDAO.getUserByUsernameAndPassword(request.getUsername(), digestPassword(request.getPassword()));
+
         // User good to go
         return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getGivenName(),
                 user.getSurName(), userRoleDAO.getRoleById(user.getRoleId()), user.isActive());
