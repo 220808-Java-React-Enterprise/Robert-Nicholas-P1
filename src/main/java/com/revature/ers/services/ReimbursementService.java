@@ -8,6 +8,8 @@ import com.revature.ers.dtos.responses.ReimbursementResponse;
 import com.revature.ers.models.Reimbursement;
 import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
 import com.revature.ers.dtos.responses.Principal;
+import com.revature.ers.utils.custom_exceptions.MethodNotAllowedException;
+import com.revature.ers.utils.custom_exceptions.ResourceConflictException;
 
 import java.sql.Timestamp;
 import java.text.NumberFormat;
@@ -21,13 +23,11 @@ public class ReimbursementService {
     private final ReimbursementDAO reimbursementDAO;
     private final ReimbursementTypeDAO reimbursementTypeDAO;
     private final ReimbursementStatusDAO reimbursementStatusDAO;
-
     public ReimbursementService(ReimbursementDAO reimbursementDAO, ReimbursementTypeDAO reimbursementTypeDAO, ReimbursementStatusDAO reimbursementStatusDAO) {
         this.reimbursementDAO = reimbursementDAO;
         this.reimbursementTypeDAO = reimbursementTypeDAO;
         this.reimbursementStatusDAO = reimbursementStatusDAO;
     }
-
     public Reimbursement submit(ReimbursementRequest request, String authorId){
         Reimbursement reimbursement = null;
 
@@ -38,11 +38,9 @@ public class ReimbursementService {
 
         return reimbursement;
     }
-
     public void updateReimbursement(Reimbursement reimbursement){
         reimbursementDAO.update(reimbursement);
     }
-
     public String getStatus(String id){
         return reimbursementStatusDAO.getStatus(id);
     }
@@ -62,7 +60,6 @@ public class ReimbursementService {
         if (ls == null) throw new InvalidRequestException("\nNo reimbursements found");
         return ls;
     }
-
     public List<Reimbursement> getByType(String filter) {
         return reimbursementDAO.getByType(filter);
     }
@@ -71,23 +68,33 @@ public class ReimbursementService {
         return reimbursementList;
     }
     public List<Reimbursement> getPending(String filter) {
-        List<Reimbursement> reimbursementList = reimbursementDAO.getByStatus(filter);
+        List<Reimbursement> reimbursementList = reimbursementDAO.getByStatus(reimbursementStatusDAO.getStatusId(filter));
         return reimbursementList;
     }
-
-
     public List<Reimbursement> getByStatus(String filter) {
         return reimbursementDAO.getByStatus(filter);
     }
-
     public List<Reimbursement> getAll() {
         return reimbursementDAO.getAll();
     }
-
     public void updateStatus(String statusUpdate, String reimbursementId, String resolverId) {
-        reimbursementDAO.updateStatus(reimbursementStatusDAO.getStatusId(statusUpdate), reimbursementId, resolverId);
+        if (isValidStatus(statusUpdate)){
+            if (isValidId(reimbursementId)){
+                if (isPending(reimbursementId)) {
+                    reimbursementDAO.updateStatus(reimbursementStatusDAO.getStatusId(statusUpdate), reimbursementId, resolverId);
+                }else throw new MethodNotAllowedException("Cannot update processed request");
+            }else throw new ResourceConflictException("Not a valid Reimbursement ID");
+        }else throw new ResourceConflictException("Not a valid Status");
+
     }
-
-
+    public boolean isPending(String reimbursementId) {
+        return (reimbursementDAO.getStatusIDfromReimbID(reimbursementId).equals(reimbursementStatusDAO.getStatusId("PENDING")));
+    }
+    public boolean isValidStatus(String status){
+        return  (reimbursementStatusDAO.getStatusId(status) != null);
+    }
+    public boolean isValidId(String reimbursementId) {
+        return (reimbursementDAO.getById(reimbursementId) != null);
+    }
 }
 

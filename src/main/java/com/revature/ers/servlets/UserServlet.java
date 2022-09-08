@@ -45,7 +45,7 @@ public class UserServlet extends HttpServlet {
             }
             else throw new InvalidRequestException("Not a valid path");
 
-        } catch (NullPointerException e){
+        } catch (NullPointerException | AuthenticationException e){
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException e){
             resp.getWriter().write(e.getMessage());
@@ -83,7 +83,7 @@ public class UserServlet extends HttpServlet {
             }
             else resp.setStatus(401); // Unauthorized
 
-        } catch (NullPointerException e){
+        } catch (NullPointerException | AuthenticationException e){
             resp.setStatus(401); // Unauthorized
         } catch (InvalidRequestException e){
             resp.getWriter().write(e.getMessage());
@@ -110,7 +110,7 @@ public class UserServlet extends HttpServlet {
                 resp.getWriter().write("User updated");
             } else throw new InvalidRequestException("Not a valid path");
 
-        } catch (NullPointerException e){
+        } catch (NullPointerException | AuthenticationException e){
             resp.setStatus(401);    // Unauthorized
         } catch (InvalidRequestException | IndexOutOfBoundsException e){
             resp.getWriter().write(e.getMessage());

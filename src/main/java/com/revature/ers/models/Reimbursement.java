@@ -52,6 +52,10 @@ public class Reimbursement {
 
     }
 
+    public Reimbursement() {
+
+    }
+
     public String getId() {
         return id;
     }
