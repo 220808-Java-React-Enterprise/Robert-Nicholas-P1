@@ -40,7 +40,7 @@ view all request made to the system. Managers are also authorized to approve or 
 ## Usage
 Postman folder for requests:
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/b252708dd05213266c48?action=collection%2Fimport)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fe66ab2fca07192b2f61?action=collection%2Fimport)
 
 - Note: Authorizations keys should be added to the folder NOT the individual requests
 
