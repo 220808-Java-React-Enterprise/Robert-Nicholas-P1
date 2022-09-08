@@ -194,4 +194,39 @@ public class ReimbursementDAO implements CrudDAO<Reimbursement> {
         }
         return ls;
     }
+
+    public Reimbursement getById(String reimbursementId) {
+        try (Connection con = ConnectionFactory.getInstance().getConnection()){
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM ers_reimbursements WHERE id = ?");
+            ps.setString(1, reimbursementId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                return new Reimbursement(rs.getString("id"), rs.getString("description"),
+                        rs.getString("payment_id"), rs.getString("author_id"), rs.getString("resolver_id"),
+                        rs.getString("status_id"), rs.getString("type_id"), rs.getFloat("amount"),
+                        rs.getTimestamp("submitted"), rs.getTimestamp("resolved"), rs.getBlob("receipt"));
+
+            }
+        } catch (SQLException e){
+            throw new InvalidSQLException("Error getting reimbursements by username");
+        }
+        return null;
+    }
+
+    public String getStatusIDfromReimbID(String reimbursementId) {
+        try (Connection con = ConnectionFactory.getInstance().getConnection()){
+            PreparedStatement ps = con.prepareStatement("SELECT status_id FROM ers_reimbursements WHERE id = ?");
+            ps.setString(1, reimbursementId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                return rs.getString("status_id");
+
+            }
+        } catch (SQLException e){
+            throw new InvalidSQLException("Error getting status Id");
+        }
+        return null;
+    }
 }
