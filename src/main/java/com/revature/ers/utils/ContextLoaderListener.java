@@ -23,8 +23,8 @@ public class ContextLoaderListener implements ServletContextListener {
         // Dependency Injection
         UserServlet userServlet = new UserServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO(), new UserRoleDAO()));
         AuthServlet authServlet = new AuthServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO(), new UserRoleDAO()));
-        ReimbursementServlet reimbursementServlet = new ReimbursementServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO(),
-                new UserRoleDAO()), new ReimbursementService(new ReimbursementDAO(), new ReimbursementTypeDAO(), new ReimbursementStatusDAO()));
+        ReimbursementServlet reimbursementServlet = new ReimbursementServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO(), new UserRoleDAO()),
+                new ReimbursementService(new ReimbursementDAO(), new ReimbursementTypeDAO(), new ReimbursementStatusDAO()));
         ManagerServlet managerServlet = new ManagerServlet(mapper, new TokenService(new JwtConfig()), new UserService(new UserDAO(), new UserRoleDAO()),
                 new ReimbursementService(new ReimbursementDAO(), new ReimbursementTypeDAO(), new ReimbursementStatusDAO()));
 

@@ -59,10 +59,6 @@ public class UserService {
     // Purpose: To log in a user
     public UserResponse login(LoginRequest request){
         User user = userDAO.getUserByUsernameAndPassword(request.getUsername(), digestPassword(request.getPassword()));
-        // User doesn't exist
-        if (user == null) throw new AuthenticationException("Incorrect username or password");
-            // User exists but account isn't active
-        else if (!user.isActive()) throw new AuthenticationException("Account not active.");
         // User good to go
         return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getGivenName(),
                 user.getSurName(), userRoleDAO.getRoleById(user.getRoleId()), user.isActive());

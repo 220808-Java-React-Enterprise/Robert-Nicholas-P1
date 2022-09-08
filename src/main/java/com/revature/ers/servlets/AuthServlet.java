@@ -31,6 +31,12 @@ public class AuthServlet extends HttpServlet {
         try{
             LoginRequest request = mapper.readValue(req.getInputStream(), LoginRequest.class);
             UserResponse response = userService.login(request);
+
+            // User doesn't exist
+            if (response == null) throw new AuthenticationException("Incorrect username or password");
+            // User exists but account isn't active
+            else if (!response.isActive()) throw new AuthenticationException("Account not active.");
+
             Principal principal = new Principal(response.getId(), response.getUsername(), response.getRole());
             String token = tokenService.generateToken(principal);
 
