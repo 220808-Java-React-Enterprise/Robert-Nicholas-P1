@@ -65,8 +65,8 @@ public class UserService {
     }
 
     // Pre: An admin is requesting to update a user from the db
-    // Post:
-    // Purpose:
+    // Post: A user is updated in the db
+    // Purpose: To update a user in the db
     public void updateUser(User user, UserRequest request){
         if (request.getPassword1() != null)
             if (isValidPassword(request.getPassword1()))
@@ -76,18 +76,18 @@ public class UserService {
         userDAO.update(user);
     }
 
-    // Pre:
-    // Post:
-    // Purpose:
+    // Pre: A admin is getting all users in the db
+    // Post: A list of all users is returned
+    // Purpose: To get all the users in the db
     public Map<String, UserResponse> getUserList(){
         Map<String, UserResponse> ls = userDAO.getAllResponse();
         if (ls == null) throw new InvalidRequestException("\nNo users found");
         return ls;
     }
 
-    // Pre:
-    // Post:
-    // Purpose:
+    // Pre: A user id is sent in
+    // Post: The user at that id is returned
+    // Purpose: To get a user by id
     public User getUserById(String id){
         return userDAO.getById(id);
     }
