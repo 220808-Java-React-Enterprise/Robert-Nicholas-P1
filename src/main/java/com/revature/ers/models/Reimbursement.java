@@ -52,6 +52,10 @@ public class Reimbursement {
 
     }
 
+    public Reimbursement() {
+
+    }
+
     public String getId() {
         return id;
     }
@@ -157,5 +161,7 @@ public class Reimbursement {
                 ", receipt=" + receipt +
                 '}';
     }
+
+
 
 }

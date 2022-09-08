@@ -47,9 +47,9 @@ public class UserService {
         return user;
     }
 
-    // Pre:
-    // Post:
-    // Purpose:
+    // Pre: An admin is requesting to delete a user from the db
+    // Post: A user has been deleted
+    // Purpose: To delete a user from the db
     public void deleteUser(String id){
         userDAO.delete(id);
     }
@@ -64,13 +64,13 @@ public class UserService {
                 user.getSurName(), userRoleDAO.getRoleById(user.getRoleId()), user.isActive());
     }
 
-    // Pre:
+    // Pre: An admin is requesting to update a user from the db
     // Post:
     // Purpose:
     public void updateUser(User user, UserRequest request){
         if (request.getPassword1() != null)
             if (isValidPassword(request.getPassword1()))
-                user.setPassword(request.getPassword1());
+                user.setPassword(digestPassword(request.getPassword1()));
 
         user.setActive(request.isActive());
         userDAO.update(user);
