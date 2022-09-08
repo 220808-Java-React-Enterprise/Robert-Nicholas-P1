@@ -3,6 +3,7 @@ package com.revature.ers.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.ers.dtos.requests.UpdateStatusRequest;
 import com.revature.ers.dtos.responses.Principal;
+import com.revature.ers.models.Reimbursement;
 import com.revature.ers.services.ReimbursementService;
 import com.revature.ers.services.TokenService;
 import com.revature.ers.services.UserService;
@@ -95,13 +96,29 @@ public class ManagerServlet extends HttpServlet {
 
                 if (path[3].equals("viewreimball")) {
                     System.out.println("Viewing all reimbursements");
-                    resp.getWriter().write(mapper.writeValueAsString(reimbursementService.getAll().toString()));
+
+                    resp.getWriter().write("<ul>");
+                    for (Reimbursement n : reimbursementService.getAll()){
+                        resp.getWriter().write("<li>" + n + "</li>");
+                    }
+                    resp.getWriter().write("</ul>");
+
                 }else if (path[3].equals("viewPending")){
-                    System.out.println("Filtering by reimbursement type");
-                    resp.getWriter().write(mapper.writeValueAsString(reimbursementService.getPending("PENDING").toString()));
+                    System.out.println("Viewing Pending Reimbursements");
+                    resp.getWriter().write("<ul>");
+                    for (Reimbursement n : reimbursementService.getPending("PENDING")){
+                        resp.getWriter().write("<li>" + n + "</li>");
+                    }
+                    resp.getWriter().write("</ul>");
+
+
                 }else if (path[3].equals("viewHistory")){
                     System.out.println("Showing manager resolution history");
-                    resp.getWriter().write(mapper.writeValueAsString(reimbursementService.getHistory(principal).toString()));
+                    resp.getWriter().write("<ul>");
+                    for (Reimbursement n : reimbursementService.getHistory(principal)){
+                        resp.getWriter().write("<li>" + n + "</li>");
+                    }
+                    resp.getWriter().write("</ul>");
                 }
 
             } else {
