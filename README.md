@@ -4,9 +4,9 @@
 ## Index
 - Project Description
 - Technologies
+- Usage
 - Roles
 - ER diagram
-- Usage
 - Contributors
 
 ## Project Description
@@ -37,6 +37,11 @@ view all request made to the system. Managers are also authorized to approve or 
 - Mockito
 - Postman
 
+## Usage
+Postman folder for requests:
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/5e8bedb6bdb2e9b5ffdc?action=collection%2Fimport)
+
 
 ### Roles
 - Admin
@@ -47,11 +52,6 @@ view all request made to the system. Managers are also authorized to approve or 
 
 ## ERD
 ![ERD](src/main/resources/ERD.png)
-
-## Usage
-Postman folder for requests:
-
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/5e8bedb6bdb2e9b5ffdc?action=collection%2Fimport)
 
 ## Contributors
 - Robert James
