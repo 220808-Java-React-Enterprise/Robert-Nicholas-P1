@@ -5,6 +5,8 @@ public class User {
     private String id, username, email, password, givenName, surName, roleId;
     private boolean isActive;
 
+    public User(){}
+
     public User(String id, String username, String email, String password, String givenName, String surName, String roleId, boolean isActive) {
         this.id = id;
         this.username = username;
