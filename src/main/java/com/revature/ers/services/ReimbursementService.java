@@ -55,8 +55,6 @@ public class ReimbursementService {
     // Pre: A status id is passed in
     // Post: The status corresponding to the id given is returned
     // Purpose: To get the status from the status id
-
-
     public String getStatus(String id){
         return reimbursementStatusDAO.getStatus(id);
     }

@@ -63,6 +63,7 @@ public class ReimbursementServlet extends HttpServlet {
                 else{
                     resp.getWriter().write("<ul>");
                     for (ReimbursementResponse r : ls.values()){
+                        resp.getWriter().write("<a href=\"http://3.144.148.79:8080/ers/reimb?id=" + r.getId() + "\">Details</a>");
                         resp.getWriter().write("<li>" + r + "</li>");
                     }
                     resp.getWriter().write("</ul>");
