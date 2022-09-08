@@ -42,11 +42,11 @@ view all request made to the system. Managers are also authorized to approve or 
 - Admin
 - Manager
 - Employee
-![ROLES](https://lucid.app/publicSegments/view/93f3d5a4-9594-480e-a15e-7b9dc9b91f3f/image.png)
+![ROLES](src/main/resources/roles.png)
 
 
 ## ERD
-![ERD](https://lucid.app/publicSegments/view/e22412ef-9ea4-4535-ad35-c05db02d4554/image.png)
+![ERD](src/main/resources/ERD.png)
 
 ## Usage
 Postman folder for requests:

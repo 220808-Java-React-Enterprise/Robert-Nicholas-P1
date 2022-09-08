@@ -28,3 +28,4 @@ hs_err_pid*
 *.properties
 *.iml
 *DS_Store
+*.png
