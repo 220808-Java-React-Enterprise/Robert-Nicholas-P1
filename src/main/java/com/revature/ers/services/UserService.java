@@ -74,7 +74,7 @@ public class UserService {
     public void updateUser(User user, UserRequest request){
         if (request.getPassword1() != null)
             if (isValidPassword(request.getPassword1()))
-                user.setPassword(request.getPassword1());
+                user.setPassword(digestPassword(request.getPassword1()));
 
         user.setActive(request.isActive());
         userDAO.update(user);

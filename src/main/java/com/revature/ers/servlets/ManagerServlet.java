@@ -7,6 +7,8 @@ import com.revature.ers.services.ReimbursementService;
 import com.revature.ers.services.TokenService;
 import com.revature.ers.services.UserService;
 import com.revature.ers.utils.custom_exceptions.InvalidRequestException;
+import com.revature.ers.utils.custom_exceptions.MethodNotAllowedException;
+import com.revature.ers.utils.custom_exceptions.ResourceConflictException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -45,8 +47,13 @@ public class ManagerServlet extends HttpServlet {
                     System.out.println("Updating Status");
 
                     UpdateStatusRequest updateStatusRequest = mapper.readValue(req.getInputStream(), UpdateStatusRequest.class);
-                    reimbursementService.updateStatus(updateStatusRequest.getStatusUpdate(),updateStatusRequest.getReimbursementId(), principal.getId());
-                    resp.getWriter().write(mapper.writeValueAsString("Statuses Updated"));
+
+                    reimbursementService.updateStatus(updateStatusRequest.getStatusUpdate(), updateStatusRequest.getReimbursementId(), principal.getId());
+
+                    resp.getWriter().write(mapper.writeValueAsString("Status Updated"));
+                    resp.setStatus(200);
+
+
                 } else if (path[3].equals("blank")) {
 
                 }else if (path[3].equals("blank2")){
@@ -60,6 +67,12 @@ public class ManagerServlet extends HttpServlet {
             resp.setStatus(401); // UNAUTHORIZED
         } catch (InvalidRequestException e) {
             resp.setStatus(404);
+        }catch (ResourceConflictException e) {
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(409);
+        }catch (MethodNotAllowedException e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(406);
         }
 
         return;
