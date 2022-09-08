@@ -28,35 +28,54 @@ public class ReimbursementService {
         this.reimbursementStatusDAO = reimbursementStatusDAO;
     }
 
+    // Pre: An employee makes a reimbursement request
+    // Post: A request is submitted to the db
+    // Purpose: To save a request to the db
     public Reimbursement submit(ReimbursementRequest request, String authorId){
         Reimbursement reimbursement = null;
 
         reimbursement = new Reimbursement(UUID.randomUUID().toString(), request.getAmount(), new Timestamp(System.currentTimeMillis()),
                 request.getDescription(), request.getReceipt(), request.getPaymentId(), authorId,
                 reimbursementStatusDAO.getStatusId("PENDING"), reimbursementTypeDAO.getTypeId(request.getType().toUpperCase()));
+
         reimbursementDAO.save(reimbursement);
 
         return reimbursement;
     }
 
+    // Pre: An employee is trying to update a pending request
+    // Post: A request has been updated
+    // Purpose: To update an employees existing pending requests
     public void updateReimbursement(Reimbursement reimbursement){
         reimbursementDAO.update(reimbursement);
     }
 
+    // Pre: A status id is passed in
+    // Post: The status corresponding to the id given is returned
+    // Purpose: To get the status from the status id
     public String getStatus(String id){
         return reimbursementStatusDAO.getStatus(id);
     }
 
+    // Pre: A type is passed in
+    // Post: The type id corresponding to the type given is returned
+    // Purpose: To get the types id from the type given
     public String getTypeId(String type){
         return reimbursementTypeDAO.getTypeId(type);
     }
 
+    // Pre: User is attempting to get a list of Reimbursement
+    // Post: A list of reimbursements is returned
+    // Purpose: To get full reimbursement details
     public Map<String, Reimbursement> getReimbursementList(String id){
         Map<String, Reimbursement> ls = reimbursementDAO.getAllReimbursementsByAuthorId(id);
         if (ls == null) throw new InvalidRequestException("\nNo reimbursements found");
         return ls;
     }
 
+    // Pre: User is attempting to get their Reimbursement
+    // Post: A list of that users Reimbursements is returned
+    // Purpose: To get a list of a particular user reimbursements
     public Map<String, ReimbursementResponse> getReimbursementResponseList(String username){
         Map<String, ReimbursementResponse> ls = reimbursementDAO.getAllResponseByUsername(username);
         if (ls == null) throw new InvalidRequestException("\nNo reimbursements found");
@@ -74,7 +93,6 @@ public class ReimbursementService {
         List<Reimbursement> reimbursementList = reimbursementDAO.getByStatus(filter);
         return reimbursementList;
     }
-
 
     public List<Reimbursement> getByStatus(String filter) {
         return reimbursementDAO.getByStatus(filter);

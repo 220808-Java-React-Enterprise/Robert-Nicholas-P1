@@ -22,7 +22,7 @@ public class ConnectionFactory {
 
     private ConnectionFactory(){
         try{
-            properties.load(new FileReader("db.properties"));
+            properties.load(new FileReader("src/main/resources/db.properties"));
         } catch (IOException e){
             e.printStackTrace();
         }
